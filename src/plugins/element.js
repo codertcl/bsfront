@@ -30,8 +30,12 @@ import {
     DatePicker,
     Image,
     Empty,
+    Select,
+    Option,
 } from 'element-ui';
 
+Vue.use(Option)
+Vue.use(Select)
 Vue.use(Empty)
 Vue.use(Image)
 Vue.use(Progress)

@@ -10,13 +10,13 @@
                 active-text-color="#409EFF"
                 @open="handleOpen"
                 @close="handleClose">
-            <el-menu-item index="write">
+            <el-menu-item index="article">
                 <i class="el-icon-edit"></i>
-                <span slot="title">发布动态</span>
+                <span slot="title">论文成就</span>
             </el-menu-item>
             <el-menu-item index="allMoments">
                 <i class="el-icon-menu"></i>
-                <span slot="title">所有动态</span>
+                <span slot="title">动态报表</span>
             </el-menu-item>
             <el-menu-item index="profile">
                 <i class="el-icon-user"></i>
@@ -53,6 +53,7 @@
 <style lang="less" scoped>
     .el-aside {
         overflow: hidden;
+
         .el-menu-vertical-demo {
             margin-left: 10px;
             min-height: 600px;

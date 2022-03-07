@@ -8,11 +8,11 @@
                               mminlength="2"
                               maxlength="10"
                               show-word-limit
-                              prefix-icon="iconfont share-yonghuming">
+                              prefix-icon="iconfont bs-yonghuming">
                     </el-input>
                 </el-form-item>
                 <el-form-item class="input" prop="password">
-                    <el-input v-model="loginForm.password" clearable prefix-icon="iconfont share-mima"
+                    <el-input v-model="loginForm.password" clearable prefix-icon="iconfont bs-mima"
                               show-password
                               type="password"></el-input>
                 </el-form-item>

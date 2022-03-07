@@ -1,7 +1,7 @@
 <template>
     <el-header>
         <div class="header-content">
-            <img class="header-logo" src="../../assets/images/logo.png" alt="share你的生活">
+            <img class="header-logo" src="../../assets/images/logo.gif" alt="share你的生活">
             <span class="action">
                 <el-tooltip placement="top" content="个人资料">
                     <!-- 不添加/ 路径前面才会嵌套/home -->
@@ -11,7 +11,7 @@
                     <i class="el-icon-edit" @click="$router.push('write')"></i>
                 </el-tooltip>
                 <el-tooltip placement="top" content="退出">
-                    <i class="iconfont share-tuichu" @click="logOut"></i>
+                    <i class="iconfont bs-tuichu" @click="logOut"></i>
                 </el-tooltip>
             </span>
         </div>
@@ -55,6 +55,7 @@
             .header-logo {
                 position: absolute;
                 left: 30px;
+                height: 60px;
             }
 
             .action {
@@ -86,7 +87,7 @@
                 }
 
 
-                .share-tuichu {
+                .bs-tuichu {
                     font-size: 30px !important;
                     margin-left: 40px;
                     border-radius: 15px;

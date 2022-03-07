@@ -2,21 +2,20 @@
     <div class="home">
         <el-container>
             <Header></Header>
-            主页
-<!--            <el-container class="content-container">-->
-<!--                <Aside></Aside>-->
-<!--                <el-main>-->
-<!--                    <router-view></router-view>-->
-<!--                </el-main>-->
-<!--            </el-container>-->
+            <el-container class="content-container">
+                <Aside></Aside>
+                <el-main>
+                    <router-view></router-view>
+                </el-main>
+            </el-container>
         </el-container>
     </div>
 </template>
 
 <script>
     import Header from '../../components/container/Header'
-    // import Main from '../../components/container/Main'
-    // import Aside from '../../components/container/Aside'
+    import Main from '../../components/container/Main'
+    import Aside from '../../components/container/Aside'
     // import WriteMoment from "../../components/moment/WriteMoment";
 
     export default {
@@ -26,8 +25,8 @@
         },
         components: {
             Header,
-            // Main,
-            // Aside,
+            Main,
+            Aside,
             // WriteMoment
         },
         methods: {},

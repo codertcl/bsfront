@@ -1,8 +1,10 @@
 @font-face {
     font-family: "iconfont"; /* Project id 3169421 */
-    src: url('//at.alicdn.com/t/font_3169421_h1x8ndiorj.woff2?t=1645250411967') format('woff2'),
-    url('//at.alicdn.com/t/font_3169421_h1x8ndiorj.woff?t=1645250411967') format('woff'),
-    url('//at.alicdn.com/t/font_3169421_h1x8ndiorj.ttf?t=1645250411967') format('truetype');
+    /* Color fonts */
+    src:
+            url('//at.alicdn.com/t/font_3169421_1d1ln7acttpj.woff2?t=1646640004098') format('woff2'),
+            url('//at.alicdn.com/t/font_3169421_1d1ln7acttpj.woff?t=1646640004098') format('woff'),
+            url('//at.alicdn.com/t/font_3169421_1d1ln7acttpj.ttf?t=1646640004098') format('truetype');
 }
 
 .iconfont {
@@ -13,58 +15,86 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.share-pinglun:before {
+.bs-youbian:before {
+    content: "\ec80";
+}
+
+.bs-dianhua:before {
+    content: "\e61b";
+}
+
+.bs-xueyuan:before {
+    content: "\e62e";
+}
+
+.bs-icon-test:before {
+    content: "\e689";
+}
+
+.bs-youxiang:before {
+    content: "\e908";
+}
+
+.bs-zhongwenmingcheng:before {
+    content: "\e800";
+}
+
+.bs-zhicheng:before {
+    content: "\e68f";
+}
+
+.bs-pinglun:before {
     content: "\e891";
 }
 
-.share-dianzan:before {
+.bs-dianzan:before {
     content: "\ec7f";
 }
 
-.share-tuichu:before {
+.bs-tuichu:before {
     content: "\e892";
 }
 
-.share-zhuce:before {
+.bs-zhuce:before {
     content: "\e642";
 }
 
-.share-zhuce1:before {
+.bs-zhuce1:before {
     content: "\e6b3";
 }
 
-.share-nianling:before {
+.bs-nianling:before {
     content: "\e65a";
 }
 
-.share-nianling1:before {
+.bs-nianling1:before {
     content: "\e61d";
 }
 
-.share-tongxingbie:before {
+.bs-tongxingbie:before {
     content: "\e619";
 }
 
-.share-quxiaofabu:before {
+.bs-quxiaofabu:before {
     content: "\e66e";
 }
 
-.share-fabu:before {
+.bs-fabu:before {
     content: "\e633";
 }
 
-.share-zancun:before {
+.bs-zancun:before {
     content: "\e622";
 }
 
-.share-biaoti:before {
+.bs-biaoti:before {
     content: "\e62b";
 }
 
-.share-mima:before {
+.bs-mima:before {
     content: "\e620";
 }
 
-.share-yonghuming:before {
+.bs-yonghuming:before {
     content: "\e606";
 }
