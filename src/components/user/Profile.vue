@@ -81,44 +81,10 @@
 
             </el-tab-pane>
             <el-tab-pane label="密码管理">
-                <span slot="label"><i class="iconfont bs-mima"></i>密码管理</span>
-                <el-form :model="updateProfileForm" ref="updateProfileForm" :rules="updateProfileFormRules"
-                         class="form">
-                    <el-form-item prop="password" label="请输入原密码">
-                        <el-input v-model="updateProfileForm.password" clearable prefix-icon="iconfont bs-mima"
-                                  show-password
-                                  placeholder="请输入原密码"
-                                  type="password">
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" round size="medium" @click="authPassword">确定</el-button>
-                    </el-form-item>
-
-                    <!--密码更改 -->
-                    <div class="update-profile-box" :style="{display:isUpdatePasswordBoxShow?'block':'none'}">
-                        <el-form-item prop="password" label="请输入新密码">
-                            <el-input v-model="firstPassword" clearable prefix-icon="iconfont bs-mima"
-                                      show-password
-                                      placeholder="请输入新密码"
-                                      label="请输入新密码"
-                                      type="password">
-                            </el-input>
-                        </el-form-item>
-
-                        <el-form-item prop="password" label="请重输入密码">
-                            <el-input v-model="secondPassword" clearable prefix-icon="iconfont bs-mima"
-                                      show-password
-                                      placeholder="请重输入密码"
-                                      type="password">
-                            </el-input>
-                        </el-form-item>
-
-                        <el-form-item>
-                            <el-button type="primary" round size="medium" @click="updatePassword">确定</el-button>
-                        </el-form-item>
-                    </div>
-                </el-form>
+                <update-password
+                        :profile-form="profileForm"
+                        @update-profile="updateProfile">
+                </update-password>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -128,7 +94,7 @@
     import {getItem} from "../../utils/storage";
     import {getClient} from "../../utils/alioss";
     import {DEFAULT_AVATAR} from '../../utils/const'
-    import {md5password} from '../../utils/password-handle'
+    import UpdatePassword from "./UpdatePassword";
 
     export default {
         name: "Profile",
@@ -183,9 +149,6 @@
                 client: null,
                 isAvatarChange: false,
                 DEFAULT_AVATAR: DEFAULT_AVATAR,
-                firstPassword: '',//用户输入的第一次输入的新密码
-                secondPassword: '',//用户输入的第二次输入的新密码
-                isUpdatePasswordBoxShow: false,//更改密码输入框是否展示
                 professorOptions: [{
                     value: '教授',
                     label: '教授'
@@ -197,6 +160,9 @@
                     label: '讲师'
                 }],
             };
+        },
+        components: {
+            UpdatePassword,
         },
         created() {
             this.profileForm = getItem('user') || this.$store.state.user
@@ -267,53 +233,10 @@
                 // 同时 result 属性将包含一个data:URL格式的字符串（base64编码）以表示所读取文件的内容。
                 reader.readAsDataURL(this.avatar_file)
             },
-            //验证原密码是否正确
-            authPassword() {
-                if (md5password(this.updateProfileForm.password) !== this.profileForm.password) {
-                    return this.$message.error('密码验证错误')
-                }
-                this.$message.success('密码验证成功')
-                this.isUpdatePasswordBoxShow = true
-            },
-            //更新密码事件
-            async updatePassword() {
-                if (this.firstPassword !== this.secondPassword) {
-                    return this.$message.error('两次输入的密码不一致')
-                }
-
-                if (md5password(this.firstPassword) === this.profileForm.password) {
-                    return this.$message.error('新密码不能和原密码相同')
-                }
-
-                this.$confirm('确定修改密码吗?', '修改密码', {
-                    distinguishCancelAndClose: true,
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                })
-                    .then(async () => {
-                        const res = await this.$http.patch(`/${this.profileForm.id}/updatePassword`, {password: this.firstPassword})
-                        console.log(res)
-                        if (res.data.status === 200) {
-                            this.$message.success(res.data.message)
-                            //更新data和vuex sessionLocalstorage中的用户信息
-                            this.profileForm.password = md5password(this.firstPassword)
-                            this.$store.commit('setUser', this.profileForm)
-                            this.isUpdatePasswordBoxShow = false
-                        } else {
-                            this.$message.error('密码修改失败')
-                        }
-                    })
-                    .catch(err => {
-                        this.$message({
-                            type: 'info',
-                            message: '取消修改密码'
-                        })
-                    })
-                this.firstPassword = ''
-                this.secondPassword = ''
-                this.updateProfileForm.password = ''
-            },
+            updateProfile(newPassword) {
+                this.profileForm.password = newPassword
+                console.log(newPassword)
+            }
             //获取用户信息
             // async getProfile() {
             //     const res = await this.$http.get(`/api/${this.profileForm.id}/userInfo`)
