@@ -80,46 +80,46 @@
                 </div>
 
             </el-tab-pane>
-            <!--            <el-tab-pane label="密码管理">-->
-            <!--                <span slot="label"><i class="iconfont bs-mima"></i>密码管理</span>-->
-            <!--                <el-form :model="updateProfileForm" ref="updateProfileForm" :rules="updateProfileFormRules"-->
-            <!--                         class="form">-->
-            <!--                    <el-form-item prop="password" label="请输入原密码">-->
-            <!--                        <el-input v-model="updateProfileForm.password" clearable prefix-icon="iconfont bs-mima"-->
-            <!--                                  show-password-->
-            <!--                                  placeholder="请输入原密码"-->
-            <!--                                  type="password">-->
-            <!--                        </el-input>-->
-            <!--                    </el-form-item>-->
-            <!--                    <el-form-item>-->
-            <!--                        <el-button type="primary" round size="medium" @click="authPassword">确定</el-button>-->
-            <!--                    </el-form-item>-->
+            <el-tab-pane label="密码管理">
+                <span slot="label"><i class="iconfont bs-mima"></i>密码管理</span>
+                <el-form :model="updateProfileForm" ref="updateProfileForm" :rules="updateProfileFormRules"
+                         class="form">
+                    <el-form-item prop="password" label="请输入原密码">
+                        <el-input v-model="updateProfileForm.password" clearable prefix-icon="iconfont bs-mima"
+                                  show-password
+                                  placeholder="请输入原密码"
+                                  type="password">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" round size="medium" @click="authPassword">确定</el-button>
+                    </el-form-item>
 
-            <!--                    &lt;!&ndash;密码更改 &ndash;&gt;-->
-            <!--                    <div class="update-profile-box" :style="{display:isUpdatePasswordBoxShow?'block':'none'}">-->
-            <!--                        <el-form-item prop="password" label="请输入新密码">-->
-            <!--                            <el-input v-model="firstPassword" clearable prefix-icon="iconfont bs-mima"-->
-            <!--                                      show-password-->
-            <!--                                      placeholder="请输入新密码"-->
-            <!--                                      label="请输入新密码"-->
-            <!--                                      type="password">-->
-            <!--                            </el-input>-->
-            <!--                        </el-form-item>-->
+                    <!--密码更改 -->
+                    <div class="update-profile-box" :style="{display:isUpdatePasswordBoxShow?'block':'none'}">
+                        <el-form-item prop="password" label="请输入新密码">
+                            <el-input v-model="firstPassword" clearable prefix-icon="iconfont bs-mima"
+                                      show-password
+                                      placeholder="请输入新密码"
+                                      label="请输入新密码"
+                                      type="password">
+                            </el-input>
+                        </el-form-item>
 
-            <!--                        <el-form-item prop="password" label="请重输入密码">-->
-            <!--                            <el-input v-model="secondPassword" clearable prefix-icon="iconfont bs-mima"-->
-            <!--                                      show-password-->
-            <!--                                      placeholder="请重输入密码"-->
-            <!--                                      type="password">-->
-            <!--                            </el-input>-->
-            <!--                        </el-form-item>-->
+                        <el-form-item prop="password" label="请重输入密码">
+                            <el-input v-model="secondPassword" clearable prefix-icon="iconfont bs-mima"
+                                      show-password
+                                      placeholder="请重输入密码"
+                                      type="password">
+                            </el-input>
+                        </el-form-item>
 
-            <!--                        <el-form-item>-->
-            <!--                            <el-button type="primary" round size="medium" @click="updatePassword">确定</el-button>-->
-            <!--                        </el-form-item>-->
-            <!--                    </div>-->
-            <!--                </el-form>-->
-            <!--            </el-tab-pane>-->
+                        <el-form-item>
+                            <el-button type="primary" round size="medium" @click="updatePassword">确定</el-button>
+                        </el-form-item>
+                    </div>
+                </el-form>
+            </el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -209,18 +209,13 @@
                         if (this.isAvatarChange) {
                             await this.updateAvatar()
                         }
-                        console.log(this.profileForm)
-                        const res = await this.$http.patch(`/${this.profileForm.id}/userInfo`,
-                            this.profileForm)
-                        console.log(res)
+                        const res = await this.$http.post(`/${this.profileForm.id}/updateUserInfo`, this.profileForm)
                         if (res.data.status !== 200) {
                             return this.$message.error(res.data.message)
                         }
                         //更新vuex和sessionStorage中的用户信息
                         this.$store.commit('setUser', this.profileForm)
                         this.$message.success('用户信息更新成功')
-                        console.log(this.$store.state.user)
-                        console.log(getItem('user'))
                     } else {
                         this.$message.error('请检查修改的信息');
                         return false;
