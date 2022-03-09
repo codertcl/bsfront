@@ -111,6 +111,9 @@
                             //更新data和vuex sessionLocalstorage中的用户信息
                             this.$store.commit('setUser', this.profileForm)
                             this.isUpdatePasswordBoxShow = false
+                            this.firstPassword = ''
+                            this.secondPassword = ''
+                            this.updateProfileForm.password = ''
                         } else {
                             this.$message.error('密码修改失败')
                         }
@@ -121,9 +124,6 @@
                             message: '取消修改密码'
                         })
                     })
-                this.firstPassword = ''
-                this.secondPassword = ''
-                this.updateProfileForm.password = ''
             },
         }
     }

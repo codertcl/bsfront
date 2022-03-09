@@ -235,7 +235,6 @@
             },
             updateProfile(newPassword) {
                 this.profileForm.password = newPassword
-                console.log(newPassword)
             }
             //获取用户信息
             // async getProfile() {
