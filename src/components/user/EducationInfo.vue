@@ -6,7 +6,9 @@
                       label="个人简介">
             <el-input
                     type="textarea"
-                    :rows="2"
+                    :autosize="{ minRows: 2, maxRows: 10}"
+                    maxlength="1000"
+                    show-word-limit
                     clearable
                     v-model="educationForm.self_introduction"
                     placeholder="请输入个人简介">
@@ -34,12 +36,14 @@
             </el-input>
             <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
         </el-form-item>
-        <el-form-item prop="academic-duties"
+        <el-form-item prop="academic_duties"
                       class="academic-duties"
                       label="学术兼职">
             <el-input
                     type="textarea"
-                    :rows="4"
+                    :autosize="{ minRows: 2, maxRows: 10}"
+                    maxlength="1000"
+                    show-word-limit
                     clearable
                     v-model="educationForm.academic_duties"
                     placeholder="请输入学术兼职信息">
@@ -50,7 +54,9 @@
                       label="获奖信息">
             <el-input
                     type="textarea"
-                    :rows="4"
+                    :autosize="{ minRows: 2, maxRows: 10}"
+                    maxlength="1000"
+                    show-word-limit
                     clearable
                     v-model="educationForm.prize"
                     placeholder="请输入获奖信息">
@@ -98,7 +104,6 @@
             </div>
         </el-form-item>
 
-
         <el-form-item prop="articles"
                       class="articles"
                       label="发表论文">
@@ -143,6 +148,9 @@
             </el-table>
         </el-form-item>
 
+        <el-form-item>
+            <el-button type="primary" round size="medium" @click="updateEducationInfo('educationForm')">确定</el-button>
+        </el-form-item>
     </el-form>
 </template>
 
@@ -187,7 +195,10 @@
                         date: '2016-05-03',
                         name: '王小虎',
                         address: '上海市普陀区金沙江路 1516 弄'
-                    }]
+                    }],
+                articles: [
+                    {},
+                ]
             }
         },
         props: {
@@ -196,14 +207,40 @@
                 default: () => ({})
             }
         },
+        // TODO
+
+        /** TODO */
+
+        /**
+         * TODO
+         */
+        // TODO 离开本页面后 修改后未保存的数据 没有恢复为修改前的状态
         created() {
             this.educationForm = this.profileForm
             this.educationForm.education_experience = eval("(" + this.educationForm.education_experience + ")");
             this.educationForm.research_fields = eval("(" + this.educationForm.research_fields + ")");
         },
         methods: {
+            updateEducationInfo(formName) {
+                this.$refs[formName].validate(async (valid) => {
+                    if (valid) {
+                        const res = await this.$http.patch(`/${this.educationForm.id}/updateProfileEducation`, this.educationForm)
+                        if (res.data.status !== 200) {
+                            return this.$message.error(res.data.message)
+                        }
+                        this.profileForm = this.educationForm
+                        //更新vuex和sessionStorage中的用户信息
+                        this.$store.commit('setUser', this.profileForm)
+                        this.$emit('update-profile-education', this.profileForm)
+                        this.$message.success('用户教育信息更新成功')
+                    } else {
+                        this.$message.error('更新失败,请检查修改的信息');
+                        return false;
+                    }
+                });
+            },
             handleClose(tag) {
-                this.profileForm.research_fields.splice(this.profileForm.research_fields.indexOf(tag), 1);
+                this.educationForm.research_fields.splice(this.educationForm.research_fields.indexOf(tag), 1);
             },
 
             showInput() {
@@ -216,7 +253,7 @@
             handleInputConfirm() {
                 let inputValue = this.inputValue;
                 if (inputValue) {
-                    this.profileForm.research_fields.push(inputValue);
+                    this.educationForm.research_fields.push(inputValue);
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
@@ -227,7 +264,6 @@
             handleDelete(index, row) {
                 console.log(index, row);
             },
-
         }
     }
 </script>

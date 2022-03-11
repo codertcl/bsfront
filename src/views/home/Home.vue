@@ -16,7 +16,6 @@
     import Header from '../../components/container/Header'
     import Main from '../../components/container/Main'
     import Aside from '../../components/container/Aside'
-    // import WriteMoment from "../../components/moment/WriteMoment";
 
     export default {
         name: 'Home',
@@ -27,7 +26,6 @@
             Header,
             Main,
             Aside,
-            // WriteMoment
         },
         methods: {},
     }
@@ -44,15 +42,15 @@
             width: 100%;
             position: fixed;
             margin-top: 60px;
-            height: 100%;//内容完全显示
+            height: 100%; //内容完全显示
         }
 
         /deep/ .el-aside .el-menu-vertical-demo {
             margin-left: 0;
         }
 
-        /deep/ .el-main{
-            overflow: scroll!important;
+        /deep/ .el-main {
+            overflow: scroll !important;
             padding: 5px;
         }
     }

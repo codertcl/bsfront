@@ -82,15 +82,14 @@
         <el-tab-pane label="密码管理">
             <update-password
                     :profile-form="profileForm"
-                    @update-profile-password="updateProfile">
+                    @update-profile-password="updateProfilePassword">
             </update-password>
         </el-tab-pane>
         <el-tab-pane label="教育信息管理">
-            <keep-alive>
-                <EducationInfo
-                        :profile-form="profileForm">
-                </EducationInfo>
-            </keep-alive>
+            <EducationInfo
+                    @update-profile-education="updateProfileEducation"
+                    :profile-form="profileForm">
+            </EducationInfo>
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -153,7 +152,6 @@
                 avatar_file64: null,
                 client: null,
                 isAvatarChange: false,
-                DEFAULT_AVATAR: DEFAULT_AVATAR,
                 professorOptions: [{
                     value: '教授',
                     label: '教授'
@@ -194,6 +192,9 @@
                     }
                     this.isAvatarChange = false
                 });
+            },
+            updateProfileEducation(info) {
+                this.profileForm = info
             },
             add() {
                 //调用上传文件框的点击事件 打开文件夹选择图片
