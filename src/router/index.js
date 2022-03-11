@@ -4,7 +4,10 @@ import {getItem} from "../utils/storage";
 import {MessageBox,Message} from 'element-ui';
 
 Vue.use(VueRouter)
-
+const routerPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error)
+}
 const routes = [
   {
     path: '',
@@ -99,5 +102,18 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+// 解决报错
+const originalPush = VueRouter.prototype.push
+const originalReplace = VueRouter.prototype.replace
+// push
+VueRouter.prototype.push = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
+// replace
+VueRouter.prototype.replace = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) return originalReplace.call(this, location, onResolve, onReject)
+  return originalReplace.call(this, location).catch(err => err)
+}
 
 export default router

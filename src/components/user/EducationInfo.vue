@@ -61,7 +61,7 @@
                       class="education-experience"
                       label="教育经历">
             <div class="education-experience-item"
-                 v-for="(item,index) in educationForm.education_experience">
+                 v-for="item in educationForm.education_experience">
                 <el-date-picker
                         class="education-time"
                         v-model="item.time"
@@ -97,6 +97,52 @@
                 </el-select>
             </div>
         </el-form-item>
+
+
+        <el-form-item prop="articles"
+                      class="articles"
+                      label="发表论文">
+
+            <el-table
+                    :data="tableData"
+                    style="width: 100%">
+                <el-table-column
+                        label="日期"
+                        width="180">
+                    <template slot-scope="scope">
+                        <i class="el-icon-time"></i>
+                        <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="姓名"
+                        width="180">
+                    <template slot-scope="scope">
+                        <el-popover trigger="hover" placement="top">
+                            <p>姓名: {{ scope.row.name }}</p>
+                            <p>住址: {{ scope.row.address }}</p>
+                            <div slot="reference" class="name-wrapper">
+                                <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                            </div>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                                size="mini"
+                                @click="handleEdit(scope.$index, scope.row)">编辑
+                        </el-button>
+                        <el-button
+                                size="mini"
+                                type="danger"
+                                @click="handleDelete(scope.$index, scope.row)">删除
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-form-item>
+
     </el-form>
 </template>
 
@@ -110,10 +156,11 @@
                 educationFormRules: {},
                 inputVisible: false,
                 inputValue: '',
-                type: [{
-                    value: '学士',
-                    label: '学士'
-                },
+                type: [
+                    {
+                        value: '学士',
+                        label: '学士'
+                    },
                     {
                         value: '硕士',
                         label: '硕士'
@@ -122,7 +169,25 @@
                         value: '博士',
                         label: '博士'
                     },
-                ]
+                ],
+                tableData: [
+                    {
+                        date: '2016-05-02',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
+                    }, {
+                        date: '2016-05-04',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1517 弄'
+                    }, {
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1519 弄'
+                    }, {
+                        date: '2016-05-03',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1516 弄'
+                    }]
             }
         },
         props: {
@@ -132,33 +197,9 @@
             }
         },
         created() {
-            this.profileForm.research_fields = this.profileForm.research_fields.split(',')
             this.educationForm = this.profileForm
-            this.educationForm.education_experience = [
-                {
-                    school: '中国地质大学(武汉)',
-                    time: [this.dayjs('2002-09').format('YYYY-MM'), this.dayjs('2006-06').format('YYYY-MM')],
-                    major: '计算机科学与技术',
-                    type: '学士',
-                    icon: 'el-icon-school'
-                },
-                {
-                    school: '日本会津大学',
-                    timeStart: '2006',
-                    timeEnd: '2009',
-                    major: '计算机科学与技术',
-                    type: '硕士',
-                    icon: 'el-icon-school'
-                },
-                {
-                    school: '日本会津大学',
-                    timeStart: '2009',
-                    timeEnd: '2013',
-                    major: '计算机科学与技术',
-                    type: '博士',
-                    icon: 'el-icon-school'
-                },
-            ]
+            this.educationForm.education_experience = eval("(" + this.educationForm.education_experience + ")");
+            this.educationForm.research_fields = eval("(" + this.educationForm.research_fields + ")");
         },
         methods: {
             handleClose(tag) {
@@ -179,7 +220,14 @@
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
-            }
+            },
+            handleEdit(index, row) {
+                console.log(index, row);
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            },
+
         }
     }
 </script>

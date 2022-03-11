@@ -32,8 +32,14 @@ import {
     Empty,
     Select,
     Option,
+    Table,
+    TableColumn,
+    Popover,
 } from 'element-ui';
 
+Vue.use(Popover)
+Vue.use(TableColumn)
+Vue.use(Table)
 Vue.use(Option)
 Vue.use(Select)
 Vue.use(Empty)

@@ -70,7 +70,7 @@
                 </el-form-item>
             </el-form>
             <div class="user-avatar">
-                <img alt="用户头像" :src="profileForm.avatar_url || DEFAULT_AVATAR">
+                <img alt="用户头像" :src="profileForm.avatar_url">
                 <input type="file" @change="fileChanged" ref="file"
                        accept="image/jpg,image/jpeg,image/png,image/bmp">
                 <div class="operation-box">
@@ -87,9 +87,9 @@
         </el-tab-pane>
         <el-tab-pane label="教育信息管理">
             <keep-alive>
-                <education-info
+                <EducationInfo
                         :profile-form="profileForm">
-                </education-info>
+                </EducationInfo>
             </keep-alive>
         </el-tab-pane>
     </el-tabs>
@@ -98,7 +98,6 @@
 <script>
     import {getItem} from "../../utils/storage";
     import {getClient} from "../../utils/alioss";
-    import {DEFAULT_AVATAR} from '../../utils/const'
     import UpdatePassword from "./UpdatePassword";
     import EducationInfo from "./EducationInfo";
 
