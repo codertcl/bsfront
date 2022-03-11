@@ -1,5 +1,4 @@
 <template>
-    <div>
         <el-form :model="updateProfileForm" ref="updateProfileForm" :rules="updateProfileFormRules"
                  class="form">
             <el-form-item prop="password" label="请输入原密码">
@@ -37,7 +36,6 @@
                 </el-form-item>
             </div>
         </el-form>
-    </div>
 </template>
 
 <script>

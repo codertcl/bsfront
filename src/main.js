@@ -5,6 +5,13 @@ import store from './store'
 import axios from 'axios'
 import './plugins/element'
 
+import dayjs from 'dayjs'
+var relativeTime = require('dayjs/plugin/relativeTime')
+import 'dayjs/locale/zh-cn' // ES 2015
+dayjs.extend(relativeTime)
+dayjs.locale('zh-cn') // 全局使用
+Vue.prototype.dayjs = dayjs
+
 Vue.config.productionTip = false
 axios.defaults.baseURL = '/api'
 Vue.prototype.$http = axios
