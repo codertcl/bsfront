@@ -1,11 +1,11 @@
 <template>
     <el-header>
         <div class="header-content">
-            <img class="header-logo" src="../../assets/images/logo.gif" alt="share你的生活">
+            <img class="header-logo" src="../../assets/images/logo.gif" alt="">
             <span class="action">
                 <el-tooltip placement="top" content="个人资料">
                     <!-- 不添加/ 路径前面才会嵌套/home -->
-                    <img :src="avatar" class="avatar" @click="$router.push('profile')">
+                    <img :src="avatar" class="avatar" @click="$router.push('profile')" alt="个人头像">
                 </el-tooltip>
                 <el-tooltip placement="top" content="发表动态">
                     <i class="el-icon-edit" @click="$router.push('write')"></i>

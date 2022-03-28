@@ -42,14 +42,14 @@ const routes = [
         path: '',
         redirect: 'profile'
       },
-      // {
-      //   path: 'write',
-      //   name: 'write',
-      //   meta: {
-      //     requiresAuth: true
-      //   },
-      //   component: () => import('../components/moment/WriteMoment'),
-      // },
+      {
+        path: 'article',
+        name: 'article',
+        meta: {
+          requiresAuth: true
+        },
+        component: () => import('../views/article/Article'),
+      },
       {
         path: 'profile',
         name: 'profile',

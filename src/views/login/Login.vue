@@ -21,7 +21,7 @@
                     <el-button type="info" @click="cancel('loginForm')">重置</el-button>
                 </el-form-item>
             </el-form>
-            <p>还没有share账号？<a :href="registerUrl">立即注册!</a></p>
+            <p>还没有系统账号？<a :href="registerUrl">立即注册!</a></p>
         </div>
     </div>
 </template>
@@ -77,13 +77,12 @@
                 lodash.throttle(function () {
                     this.$refs.loginForm.validate(async (valid) => {
                         if (valid) {
-                            console.log(this.loginForm)
                             const res = await this.$http.post('/login', this.loginForm)
-                            console.log(res)
+                            // console.log(res)
                             if (res.data.status === 200) {
                                 this.$message.success('登录成功')
                                 //  将登录成功的token和用户信息保存客户端的sessionStorage和vuex的State中中
-                                console.log(res.data)
+                                // console.log(res.data)
                                 this.$store.commit('setToken', res.data.token)
                                 this.$store.commit('setUser', res.data.info)
                                 await this.$router.push('/home')
