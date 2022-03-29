@@ -9,7 +9,7 @@
                     <el-input v-model="profileForm.username"
                               clearable
                               mminlength="2"
-                              maxlength="10"
+                              maxlength="20"
                               show-word-limit
                               prefix-icon="iconfont bs-yonghuming">
                     </el-input>

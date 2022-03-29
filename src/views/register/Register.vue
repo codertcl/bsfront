@@ -7,7 +7,7 @@
                     <el-input v-model="registerForm.username"
                               clearable
                               mminlength="2"
-                              maxlength="10"
+                              maxlength="20"
                               show-word-limit
                               prefix-icon="iconfont bs-yonghuming">
                     </el-input>
@@ -47,8 +47,8 @@
                         },
                         {
                             min: 2,
-                            max: 10,
-                            message: '长度在 2 到 10 个字符',
+                            max: 20,
+                            message: '长度在 2 到 20 个字符',
                             trigger: 'blur'
                         }
                     ],

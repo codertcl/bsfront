@@ -209,7 +209,9 @@
         },
         // TODO
 
-        /** TODO */
+        /** TODO
+         * 教育经历为空时，没有出现组件以填写教育信息
+         * */
 
         /**
          * TODO
@@ -219,6 +221,10 @@
             this.educationForm = this.profileForm
             this.educationForm.education_experience = eval("(" + this.educationForm.education_experience + ")");
             this.educationForm.research_fields = eval("(" + this.educationForm.research_fields + ")");
+            //为空则置为空数组
+            if (this.educationForm.research_fields == null) {
+                this.educationForm.research_fields = []
+            }
         },
         methods: {
             updateEducationInfo(formName) {
