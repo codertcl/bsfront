@@ -7,9 +7,9 @@
                     <!-- 不添加/ 路径前面才会嵌套/home -->
                     <img :src="avatar" class="avatar" @click="$router.push('profile')" alt="个人头像">
                 </el-tooltip>
-                <el-tooltip placement="top" content="发表动态">
-                    <i class="el-icon-edit" @click="$router.push('write')"></i>
-                </el-tooltip>
+<!--                <el-tooltip placement="top" content="">-->
+<!--                    <i class="el-icon-edit" @click="$router.push('write')"></i>-->
+<!--                </el-tooltip>-->
                 <el-tooltip placement="top" content="退出">
                     <i class="iconfont bs-tuichu" @click="logOut"></i>
                 </el-tooltip>
