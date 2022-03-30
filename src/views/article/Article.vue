@@ -1,5 +1,6 @@
 <template>
     <el-table
+            class="table"
             ref="filterTable"
             :data="articleInfo"
             height="93%"
@@ -141,8 +142,10 @@
 </script>
 
 <style scoped lang="less">
-    .el-main {
-        /deep/ .el-table {
+    .table {
+        /*修改数据加载中文字位置居中显示*/
+        /deep/ .el-loading-spinner .el-loading-text {
+            text-align: center !important;
         }
     }
 </style>

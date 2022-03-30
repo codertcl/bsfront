@@ -67,7 +67,7 @@
                       class="education-experience"
                       label="教育经历">
             <div class="education-experience-item"
-                 v-for="item in educationForm.education_experience">
+                 v-for="(item,index) in educationForm.education_experience">
                 <el-date-picker
                         class="education-time"
                         v-model="item.time"
@@ -93,7 +93,7 @@
                         v-model="item.type"
                         class="type"
                         clearable
-                        placeholder="请选择学位信息">
+                        placeholder="请选择教育信息">
                     <el-option
                             v-for="item in type"
                             :key="item.value"
@@ -101,11 +101,12 @@
                             :value="item.value">
                     </el-option>
                 </el-select>
+                <el-button type="warning" size="small" @click="del_education_experience(index)">删除</el-button>
             </div>
         </el-form-item>
-
+        <el-button type="primary" size="small" @click="add_education_experience">添加教育信息</el-button>
         <el-form-item>
-            <el-button type="primary" round size="medium" @click="updateEducationInfo('educationForm')">确定</el-button>
+            <el-button type="primary" size="medium" @click="updateEducationInfo('educationForm')">确定</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -133,6 +134,14 @@
                         value: '博士',
                         label: '博士'
                     },
+                    {
+                        value: '博士后',
+                        label: '博士后'
+                    },
+                    {
+                        value: '访问学者',
+                        label: '访问学者'
+                    },
                 ],
             }
         },
@@ -156,8 +165,12 @@
             if (this.educationForm.research_fields == null) {
                 this.educationForm.research_fields = []
             }
+            if (this.educationForm.education_experience == null) {
+                this.educationForm.education_experience = []
+            }
         },
         methods: {
+            //更新教育信息
             updateEducationInfo(formName) {
                 this.$refs[formName].validate(async (valid) => {
                     if (valid) {
@@ -179,14 +192,12 @@
             handleClose(tag) {
                 this.educationForm.research_fields.splice(this.educationForm.research_fields.indexOf(tag), 1);
             },
-
             showInput() {
                 this.inputVisible = true;
                 this.$nextTick(_ => {
                     this.$refs.saveTagInput.$refs.input.focus();
                 });
             },
-
             handleInputConfirm() {
                 let inputValue = this.inputValue;
                 if (inputValue) {
@@ -195,6 +206,21 @@
                 this.inputVisible = false;
                 this.inputValue = '';
             },
+            //添加教育经历输入框
+            add_education_experience() {
+                this.educationForm.education_experience.push(
+                    {
+                        school: "中国地质大学(武汉)",
+                        time: ["1970-11-30T16:00:00.000Z", "1971-07-31T16:00:00.000Z"],
+                        major: "计算机科学与技术",
+                        type: "学士",
+                        icon: "el-icon-school"
+                    })
+            },
+            //删除一个教育信息输入框
+            del_education_experience(index) {
+                this.educationForm.education_experience.splice(index,1)
+            }
         }
     }
 </script>
@@ -248,6 +274,10 @@
                 .type .el-input {
                     width: 100px
                 }
+            }
+
+            .el-select{
+                width: 120px!important;
             }
         }
     }
