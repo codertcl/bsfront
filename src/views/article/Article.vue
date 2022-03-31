@@ -38,19 +38,30 @@
                 width="110">
         </el-table-column>
         <el-table-column
+                prop="year"
+                sortable
+                align="center"
+                label="年份"
+                column-key="year"
+                :filters="yearRange"
+                :filter-method="filterHandler"
+                width="100">
+        </el-table-column>
+        <el-table-column
                 prop="type"
                 align="center"
                 label="类型"
                 width="250"
                 sortable
-                :filters="[{ text: '会议', value: 'Conference and Workshop Papers' },
-                 { text: '期刊', value: 'Journal Articles' },
-                 { text: '书籍', value: 'Books and Theses' }]"
+                :filters="[{ text: 'Conference and Workshop Papers', value: 'Conference and Workshop Papers' },
+                 { text: 'Journal Articles', value: 'Journal Articles' },
+                 { text: 'Editorship', value: 'Editorship' },
+                 { text: 'Books and Theses', value: 'Books and Theses' }]"
                 :filter-method="filterTag"
                 filter-placement="bottom-end">
             <template slot-scope="scope">
                 <el-tag :type="scope.row.type === 'Conference and Workshop Papers' ?'primary'
-                :(scope.row.type === 'Journal Articles'?'success':'warning') "
+                :(scope.row.type === 'Journal Articles'?'success':(scope.row.type ==='Editorship'? 'warning':'danger')) "
                         disable-transitions>{{scope.row.type}}
                 </el-tag>
             </template>
@@ -74,17 +85,10 @@
                 width="200">
         </el-table-column>
         <el-table-column
-                prop="year"
-                sortable
-                align="center"
-                label="年份"
-                width="80">
-        </el-table-column>
-        <el-table-column
                 prop="venue"
                 align="center"
                 label="发表位置"
-                width="100">
+                width="200">
         </el-table-column>
         <el-table-column
                 prop="volume"
@@ -113,6 +117,16 @@
                 loading: true,//是否正在加载
             }
         },
+        computed: {
+            //论文按照年份来筛选 近十年
+            yearRange() {
+                let res = [], currentDate = new Date()
+                for (let i = currentDate.getFullYear() - 10; i <= currentDate.getFullYear(); i++) {
+                    res.push({text: i+'', value: i+''})
+                }
+                return res
+            }
+        },
         created() {
             this.profileForm = getItem('user') || this.$store.state.user
             this.getArticleInfo(this.profileForm.username)
@@ -126,9 +140,10 @@
         },
         methods: {
             //TODO 同名作者无法获取论文数据
+            //TODO 第一次调用getArticleInfo方法时无法获取到 进入其他页面再返回才行
             async getArticleInfo(username) {
                 //2s内未获取到作者数据重复执行该函数
-                this.isGetArticleInfo(username)
+                // this.isGetArticleInfo(username)
                 const res = await this.$http.get(`${username}/getArticleInfo`)
                 if (res.data.status === 200) {
                     this.articleInfo = res.data.info
@@ -148,6 +163,11 @@
                         that.getArticleInfo(username)
                     }
                 }, 2000)
+            },
+            //年份筛选
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
             }
         }
     }
