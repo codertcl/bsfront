@@ -125,7 +125,10 @@
             }
         },
         methods: {
+            //TODO 同名作者无法获取论文数据
             async getArticleInfo(username) {
+                //2s内未获取到作者数据重复执行该函数
+                this.isGetArticleInfo(username)
                 const res = await this.$http.get(`${username}/getArticleInfo`)
                 if (res.data.status === 200) {
                     this.articleInfo = res.data.info
@@ -137,6 +140,15 @@
             filterTag(value, row) {
                 return row.type === value;
             },
+            //2s内未获取到作者数据重复执行该函数
+            isGetArticleInfo(username) {
+                let that = this
+                setTimeout(() => {
+                    if (!this.articleInfo.length) {
+                        that.getArticleInfo(username)
+                    }
+                }, 2000)
+            }
         }
     }
 </script>
@@ -144,6 +156,7 @@
 <style scoped lang="less">
     .table {
         /*修改数据加载中文字位置居中显示*/
+
         /deep/ .el-loading-spinner .el-loading-text {
             text-align: center !important;
         }
