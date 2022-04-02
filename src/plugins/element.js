@@ -36,8 +36,10 @@ import {
     TableColumn,
     Popover,
     Loading,
+    Dialog,
 } from 'element-ui';
 
+Vue.use(Dialog)
 Vue.use(Loading)
 Vue.use(Popover)
 Vue.use(TableColumn)

@@ -1,5 +1,6 @@
 <template>
     <div class="register">
+        <!--注册表单-->
         <div class="register-container">
             <p class="register-title">注册</p>
             <el-form :model="registerForm" ref="registerForm" :rules="rules" class="form">
@@ -18,12 +19,38 @@
                               type="password"></el-input>
                 </el-form-item>
                 <el-form-item class="button">
-                    <el-button type="primary" @click="registerSubmit">注册</el-button>
+                    <el-button type="primary" @click="isUsernameDetermined?registerSubmit():getNameInfo()">
+                        {{isUsernameDetermined?'注册':'获取用户信息'}}
+                    </el-button>
                     <el-button type="info" @click="cancel('registerForm')">取消</el-button>
                 </el-form-item>
             </el-form>
             <p>已有账号？<a :href="loginUrl">立即登录!</a></p>
         </div>
+
+        <!--弹出对话框选择用户-->
+        <el-dialog
+                title="请选择您要注册的用户"
+                :visible.sync="dialogVisible"
+                width="50%"
+                center>
+            <el-select v-model="selectValue" placeholder="请选择">
+                <el-option
+                        v-for="item in userInfo"
+                        :key="item['@id']"
+                        :label="item.info.author"
+                        :value="item.info.author">
+                    <p>{{ item.info.author }}</p>
+                    <p class="user-select" v-for="(ite,index) in item.info.notes.note" :key="ite.text">
+                        {{ ite.text }}
+                    </p>
+                </el-option>
+            </el-select>
+            <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogVisible = false,isUsernameDetermined=true">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -66,6 +93,10 @@
                         }
                     ],
                 },
+                userInfo: [],//查询到该名字的用户信息
+                dialogVisible: false,//用户选择框可见性
+                selectValue: '',//下拉框选择结果
+                isUsernameDetermined: false,//注册的用户名是否已经确定,更新按钮内容(获取用户信息还是注册)
             }
         },
         computed: {
@@ -73,7 +104,39 @@
                 return window.location.href.replace('register', 'login')
             },
         },
+        watch: {
+            //监听下拉选择器的结果，时刻更新注册表单的用户名
+            selectValue: {
+                handler(val) {
+                    this.registerForm.username = val
+                }
+            },
+        },
         methods: {
+            //在dblp网站中查询该name的用户信息,手动选择(优化重名情况)
+            getNameInfo: lodash.throttle(function () {
+                this.$refs['registerForm'].validate(async (valid) => {
+                    if (valid) {
+                        const res = await this.$http.get('/getNameInfo', {params: this.registerForm})
+                        console.log(res)
+                        if (res.data.status === 200) {
+                            // this.$message.success(res.data.message)
+                            this.userInfo = JSON.parse(res.data.info).result.hits.hit
+                            //去除不完全匹配的结果
+                            this.userInfo = this.userInfo.filter(item => {
+                                return item.info.author.toLowerCase().includes(this.registerForm.username.toLowerCase())
+                            })
+                            this.dialogVisible = true
+                            console.log(this.userInfo)
+                        } else {
+                            this.$message.error(res.data.message || '获取用户信息失败')
+                        }
+                    } else {
+                        this.$message.error('请正确填写注册信息')
+                    }
+                })
+            }, 1000),
+            //注册用户
             registerSubmit:
                 lodash.throttle(async function () {
                     this.$refs['registerForm'].validate(async (valid) => {
@@ -150,4 +213,22 @@
             }
         }
     }
+
+    /*设置用户提示信息的样式*/
+    .el-select-dropdown {
+        .el-select-dropdown__list {
+            .el-select-dropdown__item {
+                /*不设置li高度,让元素撑开*/
+                height: unset;
+
+                .user-select {
+                    text-indent: 1em;
+                    height: 30px;
+                    color: #8492a6;
+                    font-size: 13px
+                }
+            }
+        }
+    }
+
 </style>
