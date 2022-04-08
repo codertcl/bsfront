@@ -51,6 +51,14 @@ const routes = [
         component: () => import('../views/article/Article'),
       },
       {
+        path: 'report',
+        name: 'report',
+        meta: {
+          requiresAuth: true
+        },
+        component: () => import('../views/report/Report'),
+      },
+      {
         path: 'profile',
         name: 'profile',
         meta: {
@@ -58,14 +66,6 @@ const routes = [
         },
         component: () => import('../components/user/Profile'),
       },
-      // {
-      //   path: 'allMoments',
-      //   name: 'allMoments',
-      //   meta: {
-      //     requiresAuth: true
-      //   },
-      //   component: () => import('../components/moment/AllMoments'),
-      // }
     ]
   },
 ]

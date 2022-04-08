@@ -24,6 +24,9 @@
                 label="标题"
                 fixed
                 width="280">
+            <template slot-scope="scope">
+                {{scope.row.title}}  ({{scope.row.year}})
+            </template>
         </el-table-column>
         <el-table-column
                 prop="authors"
@@ -91,12 +94,6 @@
                 width="200">
         </el-table-column>
         <el-table-column
-                prop="volume"
-                align="center"
-                label="卷号"
-                width="50">
-        </el-table-column>
-        <el-table-column
                 prop="pages"
                 align="center"
                 label="页号"
@@ -122,7 +119,7 @@
             yearRange() {
                 let res = [], currentDate = new Date()
                 for (let i = currentDate.getFullYear() - 10; i <= currentDate.getFullYear(); i++) {
-                    res.push({text: i+'', value: i+''})
+                    res.push({text: i + '', value: i + ''})
                 }
                 return res
             }
@@ -139,7 +136,6 @@
             }
         },
         methods: {
-            //TODO 同名作者无法获取论文数据
             //TODO 第一次调用getArticleInfo方法时无法获取到 进入其他页面再返回才行
             async getArticleInfo(username) {
                 //2s内未获取到作者数据重复执行该函数
@@ -147,6 +143,7 @@
                 const res = await this.$http.get(`${username}/getArticleInfo`)
                 if (res.data.status === 200) {
                     this.articleInfo = res.data.info
+                    this.$message.success(res.data.message)
                 } else {
                     this.$message.error(res.data.message)
                 }
