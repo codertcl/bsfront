@@ -18,6 +18,10 @@
                 <i class="el-icon-menu"></i>
                 <span slot="title">动态报表</span>
             </el-menu-item>
+            <el-menu-item index="resume">
+                <i class="el-icon-discount"></i>
+                <span slot="title">主页生成</span>
+            </el-menu-item>
             <el-menu-item index="profile">
                 <i class="el-icon-user"></i>
                 <span slot="title">个人信息</span>

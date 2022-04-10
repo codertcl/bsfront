@@ -66,6 +66,14 @@ const routes = [
         },
         component: () => import('../components/user/Profile'),
       },
+      {
+        path: 'resume',
+        name: 'resume',
+        meta: {
+          requiresAuth: true
+        },
+        component: () => import('../views/resume/Resume'),
+      },
     ]
   },
 ]

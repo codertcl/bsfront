@@ -23,16 +23,23 @@
                 align="center"
                 label="标题"
                 fixed
-                width="280">
-            <template slot-scope="scope">
-                {{scope.row.title}}  ({{scope.row.year}})
-            </template>
+                width="350">
+        </el-table-column>
+        <el-table-column
+                prop="year"
+                sortable
+                align="center"
+                label="发表时间"
+                column-key="year"
+                :filters="yearRange"
+                :filter-method="filterHandler"
+                width="100">
         </el-table-column>
         <el-table-column
                 prop="authors"
                 align="center"
                 label="所有作者"
-                width="280">
+                width="350">
         </el-table-column>
         <el-table-column
                 prop="author"
@@ -41,32 +48,48 @@
                 width="110">
         </el-table-column>
         <el-table-column
-                prop="year"
-                sortable
+                prop="venue"
                 align="center"
-                label="年份"
-                column-key="year"
-                :filters="yearRange"
-                :filter-method="filterHandler"
-                width="100">
+                label="期刊名称"
+                width="350">
+            <template slot-scope="scope">
+                {{scope.row.name==='undefined'?scope.row.venue:scope.row.name}}
+            </template>
         </el-table-column>
         <el-table-column
-                prop="type"
+                prop="期刊等级"
                 align="center"
-                label="类型"
-                width="250"
-                sortable
-                :filters="[{ text: 'Conference and Workshop Papers', value: 'Conference and Workshop Papers' },
-                 { text: 'Journal Articles', value: 'Journal Articles' },
-                 { text: 'Editorship', value: 'Editorship' },
-                 { text: 'Books and Theses', value: 'Books and Theses' }]"
-                :filter-method="filterTag"
-                filter-placement="bottom-end">
+                label="level"
+                width="60">
             <template slot-scope="scope">
-                <el-tag :type="scope.row.type === 'Conference and Workshop Papers' ?'primary'
-                :(scope.row.type === 'Journal Articles'?'success':(scope.row.type ==='Editorship'? 'warning':'danger')) "
-                        disable-transitions>{{scope.row.type}}
-                </el-tag>
+                {{scope.row.level==='undefined'?'':scope.row.level}}
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="ISSN"
+                align="center"
+                label="ISSN"
+                width="100">
+            <template slot-scope="scope">
+                {{scope.row.ISSN==='undefined'?'':scope.row.ISSN}}
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="影响因子"
+                align="center"
+                label="IF"
+                width="80">
+            <template slot-scope="scope">
+                {{scope.row.IF==='undefined'?'':Number(scope.row.IF).toFixed(3)}}
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="kind"
+                align="center"
+                label="期刊类型"
+                width="100">
+            <template slot-scope="scope">
+                {{scope.row.kind==='undefined'?'':scope.row.kind}}
             </template>
         </el-table-column>
         <el-table-column
@@ -74,6 +97,12 @@
                 align="center"
                 label="索引"
                 width="200">
+        </el-table-column>
+        <el-table-column
+                prop="pages"
+                align="center"
+                label="页号"
+                width="120">
         </el-table-column>
         <el-table-column
                 prop="url"
@@ -86,18 +115,6 @@
                 align="center"
                 label="文章链接"
                 width="200">
-        </el-table-column>
-        <el-table-column
-                prop="venue"
-                align="center"
-                label="发表位置"
-                width="200">
-        </el-table-column>
-        <el-table-column
-                prop="pages"
-                align="center"
-                label="页号"
-                width="80">
         </el-table-column>
     </el-table>
 </template>
@@ -148,9 +165,6 @@
                     this.$message.error(res.data.message)
                 }
                 console.log(res)
-            },
-            filterTag(value, row) {
-                return row.type === value;
             },
             //2s内未获取到作者数据重复执行该函数
             isGetArticleInfo(username) {

@@ -37,8 +37,10 @@ import {
     Popover,
     Loading,
     Dialog,
+    Avatar,
 } from 'element-ui';
 
+Vue.use(Avatar)
 Vue.use(Dialog)
 Vue.use(Loading)
 Vue.use(Popover)
