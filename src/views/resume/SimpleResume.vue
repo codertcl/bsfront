@@ -1,127 +1,94 @@
 <template>
-    <div>
-        <vue-html2pdf
-                :show-layout="false"
-                :float-layout="true"
-                :enable-download="true"
-                :preview-modal="true"
-                filename="dezezeng"
-                :paginate-elements-by-height="10000"
-                :pdf-quality="2"
-                :manual-pagination="false"
-                pdf-format="a4"
-                :pdf-margin="10"
-                pdf-orientation="portrait"
-                pdf-content-width="800px"
-                @progress="onProgress($event)"
-                ref="html2Pdf"
-        >
-            <div class="wrapper" slot="pdf-content">
-                <div class="header">
-                    <div class="header-title">
-                        <p class="title">个人简历</p>
-                    </div>
-                    <div class="header-list">
-                        <div class="separate">
-                            <span class="icon"></span>
-                            <span class="subtitle">基本信息</span>
-                            <span class="long-line"></span>
-                        </div>
-                        <div class="header-left">
-                            <ul>
-                                <li>姓名: {{info.name}}</li>
-                                <li>联系方式: {{info.phone}}</li>
-                                <li>邮箱:<a href="info.email">{{info.email}}</a></li>
-                            </ul>
-                        </div>
-                        <div class="header-avatar">
-                            <el-avatar shape="square" :size="100" fit="fit" :src="info.avatar_url"></el-avatar>
-                        </div>
-                        <div class="header-right">
-                            <ul>
-                                <li>年龄: {{info.age}}</li>
-                                <li>职称: {{info.professor}}</li>
-                                <li>邮编: {{info.zip_code}}</li>
-                            </ul>
-                        </div>
-                        <div class="clear-fix"></div>
-                    </div>
-                </div>
-
-                <div class="education-info">
-                    <div class="separate">
-                        <span class="icon"></span>
-                        <span class="subtitle">学术信息</span>
-                        <span class="long-line"></span>
-                    </div>
-                    <div class="education-list">
-                        <label class="self-introduction">简介: <span
-                                class="self-introduction-detail">{{info.self_introduction}}</span>
-                        </label>
-                        <label class="research">研究领域:
-                            <el-tag class="research-tag" v-for="item in info.research_fields">
-                                {{item}}
-                            </el-tag>
-                        </label>
-                        <label class="academic-duties">学术兼职:
-                            <p class="academic-duties-detail">{{info.academic_duties}}</p>
-                        </label>
-                        <label class="prize">获奖信息 :
-                            <p class="prize-detail">{{info.prize}}</p>
-                        </label>
-                        <label class="education-experience">教育经历 :
-                            <div class="education-experience-detail"
-                                 v-for="item in info.education_experience">
-                                <span class="time">{{dayjs(item.time[0]).format('YYYY-MM-DD')}}至{{dayjs(item.time[1]).format('YYYY-MM-DD')}}</span>
-                                <span class="school">{{item.school}}</span>
-                                <span class="major">{{item.major}}</span>
-                                <span class="professor">{{item.type}}</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="article-info">
-                    <div class="separate">
-                        <span class="icon"></span>
-                        <span class="subtitle">论文信息</span>
-                        <span class="long-line"></span>
-                    </div>
-                    <div class="article-info-detail">
-                        <div class="article" v-for="(item,index) in info.article">
-                            <span class="index">[{{index+1}}] </span>
-                            <span>{{item.authors}}. </span>
-                            <span>{{item.title}}[{{item.key}}]. </span>
-                            <span>{{item.name==='undefined'?item.venue:item.name}}, </span>
-                            <span>{{item.year}}, </span>
-                            <span>{{item.number}}: </span>
-                            <span>{{item.pages}}.</span>
-                        </div>
-                    </div>
-                </div>
-                <hr>
+    <div class="wrapper">
+        <div class="header">
+            <div class="header-title">
+                <p class="title">个人主页</p>
             </div>
-        </vue-html2pdf>
-        <el-button type="primary"
-                   icon="el-icon-top-right"
-                   size="small"
-                   @click="exportPdf">
-            导出Pdf
-        </el-button>
+            <div class="header-list">
+                <div class="separate">
+                    <span class="icon"></span>
+                    <span class="subtitle">基本信息</span>
+                    <span class="long-line"></span>
+                </div>
+                <div class="header-left">
+                    <ul>
+                        <li>姓名: {{info.name}}</li>
+                        <li>联系方式: {{info.phone}}</li>
+                        <li>邮箱:<a href="info.email">{{info.email}}</a></li>
+                    </ul>
+                </div>
+                <div class="header-avatar">
+                    <el-avatar shape="square" :size="100" fit="fit" :src="info.avatar_url"></el-avatar>
+                </div>
+                <div class="header-right">
+                    <ul>
+                        <li>年龄: {{info.age}}</li>
+                        <li>职称: {{info.professor}}</li>
+                        <li>邮编: {{info.zip_code}}</li>
+                    </ul>
+                </div>
+                <div class="clear-fix"></div>
+            </div>
+        </div>
+
+        <div class="education-info">
+            <div class="separate">
+                <span class="icon"></span>
+                <span class="subtitle">学术信息</span>
+                <span class="long-line"></span>
+            </div>
+            <div class="education-list">
+                <label class="self-introduction">简介: <span
+                        class="self-introduction-detail">{{info.self_introduction}}</span>
+                </label>
+                <label class="research">研究领域:
+                    <el-tag class="research-tag" v-for="item in info.research_fields">
+                        {{item}}
+                    </el-tag>
+                </label>
+                <label class="academic-duties">学术兼职:
+                    <p class="academic-duties-detail">{{info.academic_duties}}</p>
+                </label>
+                <label class="prize">获奖信息 :
+                    <p class="prize-detail">{{info.prize}}</p>
+                </label>
+                <label class="education-experience">教育经历 :
+                    <div class="education-experience-detail"
+                         v-for="item in info.education_experience">
+                        <span class="time">{{dayjs(item.time[0]).format('YYYY-MM-DD')}}至{{dayjs(item.time[1]).format('YYYY-MM-DD')}}</span>
+                        <span class="school">{{item.school}}</span>
+                        <span class="major">{{item.major}}</span>
+                        <span class="professor">{{item.type}}</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="article-info">
+            <div class="separate">
+                <span class="icon"></span>
+                <span class="subtitle">论文信息</span>
+                <span class="long-line"></span>
+            </div>
+            <div class="article-info-detail">
+                <div class="article" v-for="(item,index) in info.article">
+                    <span class="index">[{{index+1}}] </span>
+                    <span>{{item.authors}}. </span>
+                    <span>{{item.title}}[{{item.key}}]. </span>
+                    <span>{{item.name==='undefined'?item.venue:item.name}}, </span>
+                    <span>{{item.year}}, </span>
+                    <span>{{item.number}}: </span>
+                    <span>{{item.pages}}.</span>
+                </div>
+            </div>
+        </div>
+        <hr>
     </div>
 </template>
 
 <script>
-    import VueHtml2pdf from 'vue-html2pdf'
-    import SimpleResume from "./SimpleResume";
-
     export default {
-        name: "ResumeTemplate",
-        data() {
-            return {
-                // info:
-            }
-        },
+        name: "SimpleResume",
         props: {
             info: {
                 type: Object,
@@ -130,10 +97,6 @@
         },
         created() {
             this.init()
-        },
-        components: {
-            VueHtml2pdf,
-            SimpleResume
         },
         methods: {
             init() {
@@ -144,9 +107,9 @@
                     this.info.education_experience = JSON.parse(this.info.education_experience)
                 }
                 // //将article转换为数组,并只显示作者中的前三个
-                console.log(this.info);
-                console.log(this.info.article);
-                console.log(Array.isArray(this.info.article))
+                // console.log(this.info);
+                // console.log(this.info.article);
+                // console.log(Array.isArray(this.info.article))
                 // this.info.article = this.info.article.map(item => {
                 //     item.authors = item.authors.split(',')
                 //     if (item.authors.length > 3) {
@@ -156,21 +119,8 @@
                 //     }
                 //     return item
                 // })
-            },
-            onProgress(event) {
-                console.log(`Processed: ${event} / 100`);
-            },
-            hasGenerated() {
-                alert("PDF generated successfully!");
-            },
-            generatePDF() {
-                this.$refs.html2Pdf.generatePdf();
-            },
-            //导出PDF 无法显示下拉内容
-            exportPdf(domName, title) {
-                this.$refs.html2Pdf.generatePdf();
             }
-        }
+        },
     }
 </script>
 
@@ -184,7 +134,7 @@
         .wrapper {
             width: 800px;
             min-height: 500px;
-            margin: 20px auto;
+            margin: 0 auto 20px;
             background-color: #bfeff0;
 
             .long-line {

@@ -1,11 +1,11 @@
 <template>
     <div class="resume">
-        <simple-template :info="profileForm"></simple-template>
+        <simple-resume-export :info="profileForm"></simple-resume-export>
     </div>
 </template>
 
 <script>
-    import SimpleTemplate from './SimpleTemplate'
+    import SimpleResumeExport from './SimpleResumeExport'
     import {getItem} from "../../utils/storage";
 
     export default {
@@ -17,7 +17,7 @@
             }
         },
         components: {
-            SimpleTemplate
+            SimpleResumeExport
         },
         created() {
             this.profileForm = getItem('user') || this.$store.state.user

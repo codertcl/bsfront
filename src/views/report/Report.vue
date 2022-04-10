@@ -34,7 +34,7 @@
                     prop="author"
                     align="center"
                     label="作者"
-                    width="100">
+                    width="110">
             </el-table-column>
             <el-table-column
                     prop="order"
