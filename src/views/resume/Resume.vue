@@ -36,7 +36,9 @@
                             author = item.author.toLocaleLowerCase().replaceAll(' ', '')
                         item['order'] = authors.indexOf(author) + 1
                     })
-                    this.profileForm['article'] = this.articleInfo
+                    //该方式添加属性，对象的原型上没有该属性的get和set方式
+                    // this.profileForm['article'] = this.articleInfo
+                    this.$set(this.profileForm, 'article', this.articleInfo)
                     this.$message.success(res.data.message)
                 } else {
                     this.$message.error(res.data.message)
