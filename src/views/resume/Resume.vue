@@ -41,7 +41,6 @@
                 } else {
                     this.$message.error(res.data.message)
                 }
-                console.log(res)
             },
         }
     }

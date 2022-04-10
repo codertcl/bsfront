@@ -71,17 +71,14 @@
                 <span class="long-line"></span>
             </div>
             <div class="article-info-detail">
-                <div class="article"
-                     v-for="(item,index) in info.article">
-                    <span class="index">{{index+1}}:</span>
-                    <span>{{item.title}},</span>
-                    <span>{{item.authors}},</span>
-                    <span>{{item.order}},</span>
-                    <span>{{item.venue}}({{item.key}})</span>
-                    <span>{{item.year}},{{item.volume==='undefined'?'':','+item.volume}}
-                        {{item.number==='undefined'?'':'('+item.number+')'}}
-                        {{item.pages==='undefined'?'':','+item.pages}}
-                </span>
+                <div class="article" v-for="(item,index) in info.article">
+                    <span class="index">[{{index+1}}] </span>
+                    <span>{{item.authors}}. </span>
+                    <span>{{item.title}}[{{item.key}}]. </span>
+                    <span>{{item.name==='undefined'?item.venue:item.name}}, </span>
+                    <span>{{item.year}}, </span>
+                    <span>{{item.number}}: </span>
+                    <span>{{item.pages}}.</span>
                 </div>
             </div>
         </div>
@@ -110,6 +107,19 @@
             if (!Array.isArray(this.info.education_experience)) {
                 this.info.education_experience = JSON.parse(this.info.education_experience)
             }
+            //将article转换为数组,并只显示作者中的前三个
+            if (!Array.isArray(this.info.article)) {
+                this.info.article = JSON.parse(this.info.article)
+            }
+            this.info.article = this.info.article.map(item => {
+                item.authors = item.authors.split(',')
+                if (item.authors.length > 3) {
+                    item.authors = item.authors.slice(0, 3).join(',') + ' and so on'
+                } else {
+                    item.authors = item.authors.join(',')
+                }
+                return item
+            })
             console.log(this.info)
         }
     }
@@ -285,9 +295,10 @@
                         color: #000;
                         margin: 25px;
 
-                        .index{
+                        .index {
                             font-size: 14px;
                         }
+
                         span {
                             margin: 3px;
                         }
