@@ -84,7 +84,7 @@
                 this.$refs.html2Pdf.generatePdf();
             },
             //导出PDF 无法显示下拉内容
-            exportPdf(domName, title) {
+            exportPdf() {
                 this.$refs.html2Pdf.generatePdf();
             }
         }
