@@ -7,9 +7,9 @@
                     <!-- 不添加/ 路径前面才会嵌套/home -->
                     <img :src="avatar" class="avatar" @click="$router.push('profile')" alt="个人头像">
                 </el-tooltip>
-<!--                <el-tooltip placement="top" content="">-->
-<!--                    <i class="el-icon-edit" @click="$router.push('write')"></i>-->
-<!--                </el-tooltip>-->
+                <el-tooltip placement="top" content="刷新">
+                    <i class="el-icon-refresh" @click="refreshArticleInfo"></i>
+                </el-tooltip>
                 <el-tooltip placement="top" content="退出">
                     <i class="iconfont bs-tuichu" @click="logOut"></i>
                 </el-tooltip>
@@ -20,6 +20,8 @@
 
 <script>
     import {getItem} from "../../utils/storage";
+    import {eventBus} from '../../utils/event-bus'
+    import lodash from 'lodash'
 
     export default {
         name: "Header",
@@ -32,6 +34,16 @@
             this.avatar = getItem('user').avatar_url
         },
         methods: {
+            refreshArticleInfo:
+                lodash.throttle(function () {
+                    if (this.$route.name === 'article') {
+                        eventBus.$emit('refreshArticleInfo')
+                    } else if (this.$route.name === 'report') {
+                        eventBus.$emit('refreshReportInfo')
+                    } else {
+                        eventBus.$emit('refreshResumeInfo')
+                    }
+                }, 5000),
             logOut() {
                 this.$store.commit('removeToken')
                 this.$store.commit('removeUser')
@@ -71,7 +83,7 @@
                     border-radius: 15px;
 
                     &:hover {
-                       opacity: 0.8;
+                        opacity: 0.8;
                     }
                 }
 

@@ -5,7 +5,9 @@
             <el-container class="content-container">
                 <Aside></Aside>
                 <el-main>
-                    <router-view></router-view>
+                    <keep-alive>
+                        <router-view></router-view>
+                    </keep-alive>
                 </el-main>
             </el-container>
         </el-container>

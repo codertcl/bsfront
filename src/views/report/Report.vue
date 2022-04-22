@@ -87,6 +87,8 @@
 
 <script>
     import {getItem} from "../../utils/storage";
+    import store from "../../store";
+    import {eventBus} from "../../utils/event-bus";
 
     export default {
         name: "Article",
@@ -111,8 +113,14 @@
             }
         },
         created() {
+            eventBus.$on('refreshReportInfo', this.updateReportInfo)
             this.profileForm = getItem('user') || this.$store.state.user
-            this.getArticleInfo(this.profileForm.username)
+            //每次刷新一次，已经使用了keep-alive进行缓存
+            this.refreshReportInfo()
+        },
+        //取消事件总线监听
+        beforeDestroy() {
+            eventBus.$off('refreshReportInfo')
         },
         watch: {
             articleInfo: {
@@ -122,35 +130,9 @@
             }
         },
         methods: {
-            //TODO 第一次调用getArticleInfo方法时无法获取到 进入其他页面再返回才行
-            async getArticleInfo(username) {
-                //2s内未获取到作者数据重复执行该函数
-                // this.isGetArticleInfo(username)
-                const res = await this.$http.get(`${username}/getArticleInfo`)
-                if (res.data.status === 200) {
-                    this.articleInfo = res.data.info
-                    //筛选出数据汇总的期刊('Journal Articles')
-                    this.articleInfo = this.articleInfo.filter(item => item.type === 'Journal Articles')
-                    //添加用户的论文属性排序
-                    this.articleInfo.forEach(item => {
-                        let authors = item.authors.toLocaleLowerCase().replaceAll(' ', '').split(','),
-                            author = item.author.toLocaleLowerCase().replaceAll(' ', '')
-                        item['order'] = authors.indexOf(author) + 1
-                    })
-                    this.$message.success(res.data.message)
-                } else {
-                    this.$message.error(res.data.message)
-                }
-                console.log(res)
-            },
-            //2s内未获取到作者数据重复执行该函数
-            isGetArticleInfo(username) {
-                let that = this
-                setTimeout(() => {
-                    if (!this.articleInfo.length) {
-                        that.getArticleInfo(username)
-                    }
-                }, 2000)
+            updateReportInfo() {
+                this.articleInfo = []
+                this.refreshReportInfo();
             },
             //年份筛选
             filterHandler(value, row, column) {
@@ -193,7 +175,29 @@
                 document.body.removeChild(link);
                 this.downloadExcelLoading = false
             },
-        }
+            refreshReportInfo() {
+                let username = getItem('user').username || store.state.user.username
+                this.$http.post(`/${username}/refreshArticleInfo`).then(res => {
+                    if (res.data.status === 200) {
+                        this.articleInfo = res.data.info
+                        //筛选出数据汇总的期刊('Journal Articles')
+                        this.articleInfo = this.articleInfo.filter(item => item.type === 'Journal Articles')
+                        //添加用户的论文属性排序
+                        this.articleInfo.forEach(item => {
+                            let authors = item.authors.toLocaleLowerCase().replaceAll(' ', '').split(','),
+                                author = item.author.toLocaleLowerCase().replaceAll(' ', '')
+                            item['order'] = authors.indexOf(author) + 1
+                        })
+                        this.$message.success(res.data.message)
+                    } else {
+                        this.$message.error(res.data.message)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                    this.$message.error(err)
+                })
+            }
+        },
     }
 </script>
 

@@ -33,7 +33,7 @@
                 column-key="year"
                 :filters="yearRange"
                 :filter-method="filterHandler"
-                width="100">
+                width="130">
         </el-table-column>
         <el-table-column
                 prop="authors"
@@ -121,6 +121,8 @@
 
 <script>
     import {getItem} from "../../utils/storage";
+    import {eventBus} from "../../utils/event-bus";
+    import store from "../../store";
 
     export default {
         name: "Article",
@@ -142,8 +144,13 @@
             }
         },
         created() {
+            eventBus.$on('refreshArticleInfo', this.updateArticleInfo)
             this.profileForm = getItem('user') || this.$store.state.user
-            this.getArticleInfo(this.profileForm.username)
+            this.refreshArticleInfo(this.profileForm.username)
+        },
+        //取消事件总线监听
+        beforeDestroy() {
+            eventBus.$off('refreshArticleInfo')
         },
         watch: {
             articleInfo: {
@@ -153,32 +160,27 @@
             }
         },
         methods: {
-            //TODO 第一次调用getArticleInfo方法时无法获取到 进入其他页面再返回才行
-            async getArticleInfo(username) {
-                //2s内未获取到作者数据重复执行该函数
-                // this.isGetArticleInfo(username)
-                const res = await this.$http.get(`${username}/getArticleInfo`)
-                if (res.data.status === 200) {
-                    this.articleInfo = res.data.info
-                    this.$message.success(res.data.message)
-                } else {
-                    this.$message.error(res.data.message)
-                }
-                console.log(res)
-            },
-            //2s内未获取到作者数据重复执行该函数
-            isGetArticleInfo(username) {
-                let that = this
-                setTimeout(() => {
-                    if (!this.articleInfo.length) {
-                        that.getArticleInfo(username)
-                    }
-                }, 2000)
+            updateArticleInfo() {
+                this.articleInfo = []
+                this.refreshArticleInfo();
             },
             //年份筛选
             filterHandler(value, row, column) {
                 const property = column['property'];
                 return row[property] === value;
+            },
+            //刷新论文信息
+            refreshArticleInfo() {
+                console.log(333)
+                let username = getItem('user').username || store.state.user.username
+                this.$http.post(`/${username}/refreshArticleInfo`).then(res => {
+                    this.$message.success(res.data.message)
+                    this.articleInfo = res.data.info
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                    this.$message.error(err)
+                })
             }
         }
     }

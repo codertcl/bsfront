@@ -1,3 +1,2 @@
 import Vue from 'vue'
-let EventBus = new Vue()
-export default EventBus
+export const eventBus = new Vue()
