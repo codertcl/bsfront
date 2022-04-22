@@ -171,12 +171,10 @@
             },
             //刷新论文信息
             refreshArticleInfo() {
-                console.log(333)
                 let username = getItem('user').username || store.state.user.username
                 this.$http.post(`/${username}/refreshArticleInfo`).then(res => {
                     this.$message.success(res.data.message)
                     this.articleInfo = res.data.info
-                    console.log(res)
                 }).catch(err => {
                     console.log(err)
                     this.$message.error(err)

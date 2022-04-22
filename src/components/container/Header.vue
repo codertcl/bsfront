@@ -8,7 +8,7 @@
                     <img :src="avatar" class="avatar" @click="$router.push('profile')" alt="个人头像">
                 </el-tooltip>
                 <el-tooltip placement="top" content="刷新">
-                    <i class="el-icon-refresh" @click="refreshArticleInfo"></i>
+                    <i class="el-icon-refresh refresh" @click="refreshArticleInfo"></i>
                 </el-tooltip>
                 <el-tooltip placement="top" content="退出">
                     <i class="iconfont bs-tuichu" @click="logOut"></i>
@@ -100,6 +100,17 @@
 
 
                 .bs-tuichu {
+                    font-size: 30px !important;
+                    margin-left: 40px;
+                    border-radius: 15px;
+                    background-color: rgba(229, 230, 235, 0.32);
+
+                    &:hover {
+                        background-color: rgb(211, 211, 213);
+                    }
+                }
+
+                .refresh {
                     font-size: 30px !important;
                     margin-left: 40px;
                     border-radius: 15px;

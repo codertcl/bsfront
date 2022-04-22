@@ -17,9 +17,6 @@
                         <li>邮箱:<a href="info.email">{{info.email}}</a></li>
                     </ul>
                 </div>
-                <div class="header-avatar">
-                    <el-avatar shape="square" :size="100" fit="fit" :src="info.avatar_url"></el-avatar>
-                </div>
                 <div class="header-right">
                     <ul>
                         <li>年龄: {{info.age}}</li>
@@ -249,6 +246,10 @@
                 .education-list {
                     position: relative;
                     margin: 10px 25px;
+
+                    /deep/ label {
+                        display: block!important;
+                    }
 
                     .self-introduction, .research, .academic-duties, .prize, .education-experience {
                         display: inline-block;
