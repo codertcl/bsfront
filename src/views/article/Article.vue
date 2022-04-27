@@ -170,15 +170,16 @@
                 return row[property] === value;
             },
             //刷新论文信息
-            refreshArticleInfo() {
+            async refreshArticleInfo() {
                 let username = getItem('user').username || store.state.user.username
-                this.$http.post(`/${username}/refreshArticleInfo`).then(res => {
+                const res = await this.$http.post(`/${username}/refreshArticleInfo`)
+                if (res.data.status === 200) {
                     this.$message.success(res.data.message)
+                    this.$store.commit('articleInfo', res.data.info)
                     this.articleInfo = res.data.info
-                }).catch(err => {
-                    console.log(err)
-                    this.$message.error(err)
-                })
+                } else {
+                    this.$message.error(res.data.status)
+                }
             }
         }
     }
