@@ -25,7 +25,7 @@
                     <el-button type="info" @click="cancel('registerForm')">取消</el-button>
                 </el-form-item>
             </el-form>
-            <p>已有账号？<a :href="loginUrl">立即登录!</a></p>
+            <p>已有账号？<a href="#" @click="$router.push('/login')">立即登录!</a></p>
         </div>
 
         <!--弹出对话框选择用户-->
@@ -41,9 +41,11 @@
                         :label="item.info.author"
                         :value="item.info.author">
                     <p>{{ item.info.author }}</p>
-                    <p class="user-select" v-for="(ite,index) in item.info.notes.note" :key="ite.text">
-                        {{ ite.text }}
-                    </p>
+                    <div class="user-select" v-if="item.info.notes">
+                        <p v-if="item.info.notes.note" v-for="(ite,index) in item.info.notes.note"
+                           :key="ite.text">
+                            {{ ite.text }}</p>
+                    </div>
                 </el-option>
             </el-select>
             <span slot="footer" class="dialog-footer">
@@ -98,11 +100,6 @@
                 selectValue: '',//下拉框选择结果
                 isUsernameDetermined: false,//注册的用户名是否已经确定,更新按钮内容(获取用户信息还是注册)
             }
-        },
-        computed: {
-            loginUrl() {
-                return window.location.href.replace('register', 'login')
-            },
         },
         watch: {
             //监听下拉选择器的结果，时刻更新注册表单的用户名
@@ -173,7 +170,7 @@
 
         .register-container {
             position: absolute;
-            height: 95%;
+            height: 60%;
             width: 500px;
             top: 0;
             right: 0;

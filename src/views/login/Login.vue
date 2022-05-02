@@ -21,7 +21,7 @@
                     <el-button type="info" @click="cancel('loginForm')">重置</el-button>
                 </el-form-item>
             </el-form>
-            <p>还没有系统账号？<a :href="registerUrl">立即注册!</a></p>
+            <p>还没有系统账号？<a href="#" @click="$router.push('/register')">立即注册!</a></p>
         </div>
     </div>
 </template>
@@ -65,11 +65,6 @@
                         }
                     ],
                 }
-            }
-        },
-        computed: {
-            registerUrl() {
-                return window.location.href.replace('login', 'register')
             }
         },
         methods: {
