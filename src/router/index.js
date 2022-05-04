@@ -17,7 +17,8 @@ const routes = [
     path: '/login',
     name: 'Login',
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      title:'登录'
     },
     component: () => import('../views/login/Login')
   },
@@ -25,7 +26,8 @@ const routes = [
     path: '/register',
     name: 'Register',
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      title:'注册'
     },
     component: () => import('../views/register/Register')
   },
@@ -40,13 +42,14 @@ const routes = [
       //  嵌套子路由不加/
       {
         path: '',
-        redirect: 'profile'
+        redirect: 'article'
       },
       {
         path: 'article',
         name: 'article',
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          title:'论文信息'
         },
         component: () => import('../views/article/Article'),
       },
@@ -54,7 +57,8 @@ const routes = [
         path: 'report',
         name: 'report',
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          title:'论文报表'
         },
         component: () => import('../views/report/Report'),
       },
@@ -62,7 +66,8 @@ const routes = [
         path: 'profile',
         name: 'profile',
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          title:'个人档案'
         },
         component: () => import('../components/user/Profile'),
       },
@@ -70,7 +75,8 @@ const routes = [
         path: 'resume',
         name: 'resume',
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          title:'动态主页'
         },
         component: () => import('../views/resume/Resume'),
       },

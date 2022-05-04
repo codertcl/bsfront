@@ -45,10 +45,8 @@
                 this.asideWidth = this.isCollapse ? "64px" : "130px";
             },
             handleOpen(key, keyPath) {
-                console.log(key, keyPath);
             },
             handleClose(key, keyPath) {
-                console.log(key, keyPath);
             }
         },
     }

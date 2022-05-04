@@ -146,7 +146,7 @@
         created() {
             eventBus.$on('refreshArticleInfo', this.updateArticleInfo)
             this.profileForm = getItem('user') || this.$store.state.user
-            this.refreshArticleInfo(this.profileForm.username)
+            this.getArticleInfo(this.profileForm.username)
         },
         //取消事件总线监听
         beforeDestroy() {
@@ -160,9 +160,20 @@
             }
         },
         methods: {
+            //更新论文数据
             updateArticleInfo() {
                 this.articleInfo = []
                 this.refreshArticleInfo();
+            },
+            //获取论文数据
+            async getArticleInfo(username) {
+                const res = await this.$http.get(`${username}/getArticleInfo`)
+                if (res.data.status === 200) {
+                    this.articleInfo = res.data.info
+                    this.$store.commit('setArticleInfo', res.data.info)
+                } else {
+                    this.$message.error(res.data.message)
+                }
             },
             //年份筛选
             filterHandler(value, row, column) {
@@ -175,7 +186,7 @@
                 const res = await this.$http.post(`/${username}/refreshArticleInfo`)
                 if (res.data.status === 200) {
                     this.$message.success(res.data.message)
-                    this.$store.commit('articleInfo', res.data.info)
+                    this.$store.commit('setArticleInfo', res.data.info)
                     this.articleInfo = res.data.info
                 } else {
                     this.$message.error(res.data.status)

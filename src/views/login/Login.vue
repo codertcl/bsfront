@@ -73,11 +73,8 @@
                     this.$refs.loginForm.validate(async (valid) => {
                         if (valid) {
                             const res = await this.$http.post('/login', this.loginForm)
-                            // console.log(res)
                             if (res.data.status === 200) {
-                                this.$message.success('登录成功')
                                 //  将登录成功的token和用户信息保存客户端的sessionStorage和vuex的State中中
-                                // console.log(res.data)
                                 this.$store.commit('setToken', res.data.token)
                                 this.$store.commit('setUser', res.data.info)
                                 await this.$router.push('/home')

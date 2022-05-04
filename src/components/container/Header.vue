@@ -5,7 +5,7 @@
             <span class="action">
                 <el-tooltip placement="top" content="个人资料">
                     <!-- 不添加/ 路径前面才会嵌套/home -->
-                    <img :src="avatar" class="avatar" @click="$router.push('profile')" alt="个人头像">
+                    <img :src="avatar||'https://serverresource.oss-cn-hangzhou.aliyuncs.com/bs/avatar/default-avatar.jpg'" class="avatar" @click="$router.push('profile')" alt="个人头像">
                 </el-tooltip>
                 <el-tooltip placement="top" content="刷新">
                     <i class="el-icon-refresh refresh" @click="refreshArticleInfo"></i>

@@ -8,7 +8,7 @@
                 stripe
                 border
                 :id="tableID"
-                v-loading="loading"
+                v-loading="!articleInfo.length"
                 element-loading-spinner="el-icon-loading"
                 element-loading-background="rgba(250, 250, 250, 0.8)"
                 style="width: 100%">
@@ -115,19 +115,13 @@
         created() {
             eventBus.$on('refreshReportInfo', this.updateReportInfo)
             this.profileForm = getItem('user') || this.$store.state.user
-            //每次刷新一次，已经使用了keep-alive进行缓存
-            this.refreshReportInfo()
+            this.articleInfo = getItem('articleInfo') || this.$store.state.articleInfo
+            //对论文信息进行预处理
+            this.handleArticleInfo();
         },
         //取消事件总线监听
         beforeDestroy() {
             eventBus.$off('refreshReportInfo')
-        },
-        watch: {
-            articleInfo: {
-                handler(val, newVal) {
-                    this.loading = !this.loading
-                }
-            }
         },
         methods: {
             updateReportInfo() {
@@ -138,6 +132,16 @@
             filterHandler(value, row, column) {
                 const property = column['property'];
                 return row[property] === value;
+            },
+            handleArticleInfo() {
+                //筛选出数据汇总的期刊('Journal Articles')
+                this.articleInfo = this.articleInfo.filter(item => item.type === 'Journal Articles')
+                //添加用户的论文属性排序
+                this.articleInfo.forEach(item => {
+                    let authors = item.authors.toLocaleLowerCase().replaceAll(' ', '').split(','),
+                        author = item.author.toLocaleLowerCase().replaceAll(' ', '')
+                    item['order'] = authors.indexOf(author) + 1
+                })
             },
             //导出excel
             exportFile(ext) {
@@ -181,13 +185,8 @@
                     if (res.data.status === 200) {
                         this.articleInfo = res.data.info
                         //筛选出数据汇总的期刊('Journal Articles')
-                        this.articleInfo = this.articleInfo.filter(item => item.type === 'Journal Articles')
-                        //添加用户的论文属性排序
-                        this.articleInfo.forEach(item => {
-                            let authors = item.authors.toLocaleLowerCase().replaceAll(' ', '').split(','),
-                                author = item.author.toLocaleLowerCase().replaceAll(' ', '')
-                            item['order'] = authors.indexOf(author) + 1
-                        })
+                        //对论文信息进行预处理
+                        this.handleArticleInfo();
                         this.$message.success(res.data.message)
                     } else {
                         this.$message.error(res.data.message)

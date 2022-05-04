@@ -60,19 +60,6 @@
                 if (!Array.isArray(this.info.education_experience)) {
                     this.info.education_experience = JSON.parse(this.info.education_experience)
                 }
-                // //将article转换为数组,并只显示作者中的前三个
-                console.log(this.info);
-                console.log(this.info.article);
-                console.log(Array.isArray(this.info.article))
-                // this.info.article = this.info.article.map(item => {
-                //     item.authors = item.authors.split(',')
-                //     if (item.authors.length > 3) {
-                //         item.authors = item.authors.slice(0, 3).join(',') + ' and so on'
-                //     } else {
-                //         item.authors = item.authors.join(',')
-                //     }
-                //     return item
-                // })
             },
             onProgress(event) {
                 console.log(`Processed: ${event} / 100`);
