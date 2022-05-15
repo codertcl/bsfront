@@ -102,13 +102,14 @@
                 <el-button type="warning" size="small" @click="del_education_experience(index)">删除</el-button>
             </div>
         </el-form-item>
-        <el-button type="primary" size="small" @click="add_education_experience">添加教育信息</el-button>
+        <el-button type="primary" class="add-experience" size="small" @click="add_education_experience">添加教育信息
+        </el-button>
         <el-form-item>
-            <el-button type="primary" size="medium" @click="updateEducationInfo('educationForm')">确定</el-button>
+            <el-button type="primary" class="update" size="medium" @click="updateEducationInfo('educationForm')">确定
+            </el-button>
         </el-form-item>
     </el-form>
 </template>
-
 
 <script>
     export default {
@@ -227,10 +228,6 @@
             width: 50%;
         }
 
-        /deep/ .self_introduction {
-
-        }
-
         /deep/ .research-tag {
             .el-tag + .el-tag {
                 margin-left: 10px;
@@ -276,6 +273,15 @@
                 width: 120px !important;
             }
         }
-    }
 
+        /deep/ .add-experience,.update {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%,0);
+        }
+
+        /deep/ .update {
+           margin: 20px auto;
+        }
+    }
 </style>
