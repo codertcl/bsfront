@@ -62,7 +62,6 @@
                     placeholder="请输入获奖信息">
             </el-input>
         </el-form-item>
-
         <el-form-item prop="education_experience"
                       class="education-experience"
                       label="教育经历">
@@ -88,7 +87,6 @@
                         v-model="item.major"
                         class="major">
                 </el-input>
-
                 <el-select
                         v-model="item.type"
                         class="type"
@@ -151,16 +149,14 @@
                 default: () => ({})
             }
         },
-
-        /** TODO
-         * 教育经历为空时，没有出现组件以填写教育信息
-         * */
-
-        // TODO 离开本页面后 修改后未保存的数据 没有恢复为修改前的状态
         created() {
             this.educationForm = this.profileForm
-            this.educationForm.education_experience = eval("(" + this.educationForm.education_experience + ")");
-            this.educationForm.research_fields = eval("(" + this.educationForm.research_fields + ")");
+            if (!Array.isArray(this.educationForm.education_experience)) {
+                this.educationForm.education_experience = eval("(" + this.educationForm.education_experience + ")");
+            }
+            if (!Array.isArray(this.educationForm.research_fields)) {
+                this.educationForm.research_fields = eval("(" + this.educationForm.research_fields + ")");
+            }
             //为空则置为空数组
             if (this.educationForm.research_fields == null) {
                 this.educationForm.research_fields = []
@@ -219,7 +215,7 @@
             },
             //删除一个教育信息输入框
             del_education_experience(index) {
-                this.educationForm.education_experience.splice(index,1)
+                this.educationForm.education_experience.splice(index, 1)
             }
         }
     }
@@ -276,8 +272,8 @@
                 }
             }
 
-            .el-select{
-                width: 120px!important;
+            .el-select {
+                width: 120px !important;
             }
         }
     }

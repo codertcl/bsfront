@@ -4,8 +4,8 @@
             <img class="header-logo" src="../../assets/images/logo.gif" alt="">
             <span class="action">
                 <el-tooltip placement="top" content="个人资料">
-                    <!-- 不添加/ 路径前面才会嵌套/home -->
-                    <img :src="avatar||'https://serverresource.oss-cn-hangzhou.aliyuncs.com/bs/avatar/default-avatar.jpg'" class="avatar" @click="$router.push('profile')" alt="个人头像">
+                    <img :src="avatar||'https://serverresource.oss-cn-hangzhou.aliyuncs.com/bs/avatar/default-avatar.jpg'"
+                         class="avatar" @click="$router.push('profile')" alt="个人头像">
                 </el-tooltip>
                 <el-tooltip placement="top" content="刷新">
                     <i class="el-icon-refresh refresh" @click="refreshArticleInfo"></i>
@@ -32,6 +32,11 @@
         },
         created() {
             this.avatar = getItem('user').avatar_url
+            //事件总线 修改图片后更新Header处的头像
+            eventBus.$on('changeAvatar', this.updateAvatar)
+        },
+        beforeDestroy() {
+            eventBus.$off('changeAvatar')
         },
         methods: {
             refreshArticleInfo:
@@ -48,6 +53,10 @@
                 this.$store.commit('removeToken')
                 this.$store.commit('removeUser')
                 this.$router.replace('/login')
+            },
+            // 修改图片后更新Header处的头像
+            updateAvatar(url) {
+                this.avatar = url
             }
         }
     }

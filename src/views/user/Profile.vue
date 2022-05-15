@@ -97,9 +97,9 @@
 <script>
     import {getItem} from "../../utils/storage";
     import {getClient} from "../../utils/alioss";
+    import {eventBus} from "../../utils/event-bus";
     import UpdatePassword from "./UpdatePassword";
     import EducationInfo from "./EducationInfo";
-
     export default {
         name: "Profile",
         data() {
@@ -226,6 +226,7 @@
                 const filepath = `bs/avatar/${this.profileForm.id}/${this.avatar_file.name}`  //图片存储路径
                 await this.client.multipartUpload(filepath, this.avatar_file64.file)
                 this.profileForm.avatar_url = `http://serverresource.oss-cn-hangzhou.aliyuncs.com/${filepath}`
+                eventBus.$emit('changeAvatar', this.profileForm.avatar_url)
                 this.$store.commit('setUser', this.profileForm)
             },
             // 将图片文件转成BASE64格式
@@ -243,19 +244,6 @@
             updateProfilePassword(newPassword) {
                 this.profileForm.password = newPassword
             }
-            //获取用户信息
-            // async getProfile() {
-            //     const res = await this.$http.get(`/api/${this.profileForm.id}/userInfo`)
-            //     this.profileForm = res.data.info[0]
-            //     console.log( this.profileForm)
-            //     let that=this
-            //     setTimeout(function () {
-            //         // that.profileForm.avatar_url = `http://serverresource.oss-cn-hangzhou.aliyuncs.com/share/images/avatar/${that.profileForm.id}/${that.avatar_file.name}`
-            //         that.$store.commit('setUser', that.profileForm)
-            //         that.$store.state.user = that.profileForm
-            //     },100)
-            //     console.log(this.profileForm)
-            // }
         }
     }
 </script>

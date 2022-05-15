@@ -69,7 +69,7 @@ const routes = [
           requiresAuth: true,
           title:'个人档案'
         },
-        component: () => import('../components/user/Profile'),
+        component: () => import('../views/user/Profile'),
       },
       {
         path: 'resume',

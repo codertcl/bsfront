@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-vue
+spec:
+  selector:
+    matchLabels:
+      app: my-vue
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: my-vue
+    spec:
+      containers:
+        - name: my-vue
+          image: app:v3
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /etc/nginx/nginx.conf
+              name: test-volume
+      volumes:
+        - name: test-volume
+          hostPath:
+            # 宿主上目录位置
+            path: /data/nginx/conf/nginx.conf
+            # 此字段为可选
+            type: File
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vue-service
+  labels:
+    app: my-vue
+spec:
+  type: NodePort
+  selector:
+    app: my-vue
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 32500

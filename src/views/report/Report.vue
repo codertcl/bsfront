@@ -208,4 +208,10 @@
             text-align: center !important;
         }
     }
+
+    .el-button {
+        position: absolute;
+        right: 50px;
+        margin-top: 10px!important;
+    }
 </style>

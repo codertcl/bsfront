@@ -165,6 +165,11 @@
                 this.articleInfo = []
                 this.refreshArticleInfo();
             },
+            //年份筛选
+            filterHandler(value, row, column) {
+                const property = column['property'];
+                return row[property] === value;
+            },
             //获取论文数据
             async getArticleInfo(username) {
                 const res = await this.$http.get(`${username}/getArticleInfo`)
@@ -174,11 +179,6 @@
                 } else {
                     this.$message.error(res.data.message)
                 }
-            },
-            //年份筛选
-            filterHandler(value, row, column) {
-                const property = column['property'];
-                return row[property] === value;
             },
             //刷新论文信息
             async refreshArticleInfo() {

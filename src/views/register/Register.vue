@@ -117,9 +117,9 @@
                         const res = await this.$http.get('/getNameInfo', {params: this.registerForm})
                         console.log(res)
                         if (res.data.status === 200) {
-                            // this.$message.success(res.data.message)
                             this.userInfo = JSON.parse(res.data.info).result.hits.hit
                             //去除不完全匹配的结果
+                            // console.log()
                             this.userInfo = this.userInfo.filter(item => {
                                 return item.info.author.toLowerCase().includes(this.registerForm.username.toLowerCase())
                             })
