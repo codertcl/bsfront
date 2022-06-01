@@ -42,7 +42,7 @@
                         :value="item.info.author">
                     <p>{{ item.info.author }}</p>
                     <div class="user-select" v-if="item.info.notes">
-                        <p v-if="item.info.notes.note" v-for="(ite,index) in item.info.notes.note"
+                        <p class="tip" v-if="item.info.notes.note" v-for="(ite,index) in item.info.notes.note"
                            :key="ite.text">
                             {{ ite.text }}</p>
                     </div>
@@ -119,12 +119,10 @@
                         if (res.data.status === 200) {
                             this.userInfo = JSON.parse(res.data.info).result.hits.hit
                             //去除不完全匹配的结果
-                            // console.log()
                             this.userInfo = this.userInfo.filter(item => {
                                 return item.info.author.toLowerCase().includes(this.registerForm.username.toLowerCase())
                             })
                             this.dialogVisible = true
-                            console.log(this.userInfo)
                         } else {
                             this.$message.error(res.data.message || '获取用户信息失败')
                         }
@@ -220,9 +218,12 @@
 
                 .user-select {
                     text-indent: 1em;
-                    height: 30px;
                     color: #8492a6;
-                    font-size: 13px
+                    font-size: 13px;
+
+                    .tip{
+                        height: 34px;
+                    }
                 }
             }
         }
