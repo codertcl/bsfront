@@ -14,33 +14,45 @@
                 style="width: 100%">
             <el-table-column
                     type="index"
+                    label="序号"
                     align="center"
-                    label="编号"
                     width="50">
             </el-table-column>
             <el-table-column
                     prop="title"
                     align="center"
-                    label="论文名称"
+                    label="论文题目"
                     width="350">
+            </el-table-column>
+            <el-table-column
+                    prop="venue"
+                    align="center"
+                    label="期刊名称"
+                    width="350">
+                <template slot-scope="scope">
+                    {{scope.row.name==='undefined'?scope.row.venue:scope.row.name}}
+                </template>
             </el-table-column>
             <el-table-column
                     prop="authors"
                     align="center"
-                    label="所有作者"
+                    label="作者"
                     width="350">
             </el-table-column>
             <el-table-column
-                    prop="author"
+                    prop="year"
+                    sortable
                     align="center"
-                    label="作者"
-                    width="110">
-            </el-table-column>
-            <el-table-column
-                    prop="order"
-                    align="center"
-                    label="本人排名"
-                    width="80">
+                    label="发表年(卷)期"
+                    column-key="year"
+                    :filters="yearRange"
+                    :filter-method="filterHandler"
+                    width="200">
+                <template slot-scope="scope">
+                    {{scope.row.year}}
+                    ({{scope.row.volume==='undefined'?'online':scope.row.volume}})
+                    {{scope.row.number==="undefined"?'online':scope.row.number}}
+                </template>
             </el-table-column>
             <el-table-column
                     prop="year"
@@ -53,8 +65,41 @@
                     width="200">
                 <template slot-scope="scope">
                     {{scope.row.year}}
-                    ({{scope.row.number}})
-                    {{scope.row.pages}}
+                    ({{scope.row.number==='undefined'?'online':scope.row.number}})
+                    {{scope.row.pages==='undefined'?'online':scope.row.pages}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="volume"
+                    align="center"
+                    label="卷号"
+                    width="60">
+            </el-table-column>
+            <el-table-column
+                    prop="期刊等级"
+                    align="center"
+                    label="level"
+                    width="70">
+                <template slot-scope="scope">
+                    {{scope.row.level==='undefined'?'online':scope.row.level}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="ISSN"
+                    align="center"
+                    label="ISSN"
+                    width="100">
+                <template slot-scope="scope">
+                    {{scope.row.ISSN==='undefined'?'online':scope.row.ISSN}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="影响因子"
+                    align="center"
+                    label="IF"
+                    width="80">
+                <template slot-scope="scope">
+                    {{scope.row.IF==='undefined'?'online':Number(scope.row.IF).toFixed(3)}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -64,15 +109,45 @@
                     width="480">
                 <template slot-scope="scope">
                     {{scope.row.name==='undefined'?scope.row.venue:scope.row.name}}
-                    ({{scope.row.key}},{{scope.row.ISSN}},
-                    {{+scope.row.IF}})
+                    ({{scope.row.key}},{{scope.row.ISSN==='undefined'?'online':scope.row.ISSN}},
+                    {{scope.row.IF==='undefined'?'online':Number(scope.row.IF).toFixed(3)}})
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="level"
+                    prop="kind"
                     align="center"
-                    label="论文级别"
+                    label="期刊类型"
                     width="100">
+                <template slot-scope="scope">
+                    {{scope.row.kind==='undefined'?'online':scope.row.kind}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="key"
+                    align="center"
+                    label="索引"
+                    width="200">
+            </el-table-column>
+            <el-table-column
+                    prop="pages"
+                    align="center"
+                    label="页号"
+                    width="120">
+                <template slot-scope="scope">
+                    {{ scope.row.pages==='undefined'?'online':scope.row.pages}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="url"
+                    align="center"
+                    label="dblp链接"
+                    width="200">
+            </el-table-column>
+            <el-table-column
+                    prop="ee"
+                    align="center"
+                    label="文章链接"
+                    width="200">
             </el-table-column>
         </el-table>
         <el-button type="primary"
@@ -212,6 +287,6 @@
     .el-button {
         position: absolute;
         right: 50px;
-        margin-top: 10px!important;
+        margin-top: 10px !important;
     }
 </style>

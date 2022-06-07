@@ -62,10 +62,10 @@
                 }
             },
             onProgress(event) {
-                console.log(`Processed: ${event} / 100`);
+                // console.log(`Processed: ${event} / 100`);
             },
             hasGenerated() {
-                alert("PDF generated successfully!");
+                // alert("PDF generated successfully!");
             },
             generatePDF() {
                 this.$refs.html2Pdf.generatePdf();

@@ -1,41 +1,41 @@
 <template>
-        <el-form :model="updateProfileForm" ref="updateProfileForm" :rules="updateProfileFormRules"
-                 class="form">
-            <el-form-item prop="password" label="请输入原密码">
-                <el-input v-model="updateProfileForm.password" clearable prefix-icon="iconfont bs-mima"
+    <el-form :model="updateProfileForm" ref="updateProfileForm" :rules="updateProfileFormRules"
+             class="form">
+        <el-form-item prop="password" label="请输入原密码">
+            <el-input v-model="updateProfileForm.password" clearable prefix-icon="iconfont bs-mima"
+                      show-password
+                      placeholder="请输入原密码"
+                      type="password">
+            </el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" round size="medium" @click="authPassword">确定</el-button>
+        </el-form-item>
+
+        <!--密码更改 -->
+        <div class="update-profile-box" :style="{display:isUpdatePasswordBoxShow?'block':'none'}">
+            <el-form-item prop="password" label="请输入新密码">
+                <el-input v-model="firstPassword" clearable prefix-icon="iconfont bs-mima"
                           show-password
-                          placeholder="请输入原密码"
+                          placeholder="请输入新密码"
+                          label="请输入新密码"
                           type="password">
                 </el-input>
             </el-form-item>
-            <el-form-item>
-                <el-button type="primary" round size="medium" @click="authPassword">确定</el-button>
+
+            <el-form-item prop="password" label="请重输入密码">
+                <el-input v-model="secondPassword" clearable prefix-icon="iconfont bs-mima"
+                          show-password
+                          placeholder="请重输入密码"
+                          type="password">
+                </el-input>
             </el-form-item>
 
-            <!--密码更改 -->
-            <div class="update-profile-box" :style="{display:isUpdatePasswordBoxShow?'block':'none'}">
-                <el-form-item prop="password" label="请输入新密码">
-                    <el-input v-model="firstPassword" clearable prefix-icon="iconfont bs-mima"
-                              show-password
-                              placeholder="请输入新密码"
-                              label="请输入新密码"
-                              type="password">
-                    </el-input>
-                </el-form-item>
-
-                <el-form-item prop="password" label="请重输入密码">
-                    <el-input v-model="secondPassword" clearable prefix-icon="iconfont bs-mima"
-                              show-password
-                              placeholder="请重输入密码"
-                              type="password">
-                    </el-input>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button type="primary" round size="medium" @click="updatePassword">确定</el-button>
-                </el-form-item>
-            </div>
-        </el-form>
+            <el-form-item>
+                <el-button type="primary" round size="medium" @click="updatePassword">确定</el-button>
+            </el-form-item>
+        </div>
+    </el-form>
 </template>
 
 <script>
@@ -71,7 +71,7 @@
         props: {
             profileForm: {
                 type: Object,
-                default: ()=>({})
+                default: () => ({})
             }
         },
         methods: {
@@ -105,9 +105,11 @@
                         if (res.data.status === 200) {
                             this.$message.success(res.data.message)
                             //更新父组件内用户信息
-                            this.$emit('update-profile', md5password(this.firstPassword))
+                            this.$emit('update-profile-password', md5password(this.firstPassword))
                             //更新data和vuex sessionLocalstorage中的用户信息
                             this.$store.commit('setUser', this.profileForm)
+                            //修改本组件内的profileForm中的密码信息
+                            this.profileForm.password = md5password(this.firstPassword)
                             this.isUpdatePasswordBoxShow = false
                             this.firstPassword = ''
                             this.secondPassword = ''

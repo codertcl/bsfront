@@ -7,6 +7,7 @@
 <script>
     import SimpleResumeExport from './SimpleResumeExport'
     import {getItem} from "../../utils/storage";
+    import {eventBus} from "../../utils/event-bus";
 
     export default {
         name: "Resume",
@@ -23,6 +24,10 @@
             this.profileForm = getItem('user') || this.$store.state.user
             this.articleInfo = getItem('articleInfo') || this.$store.state.articleInfo
             this.handleArticleInfo()
+            eventBus.$on('updateProfile', this.updateProfileInfo)
+        },
+        beforeDestroy() {
+            eventBus.$off('updateProfile', this.updateProfileInfo)
         },
         methods: {
             handleArticleInfo() {
@@ -38,6 +43,9 @@
                 // this.profileForm['article'] = this.articleInfo
                 this.$set(this.profileForm, 'article', this.articleInfo)
             },
+            updateProfileInfo(info) {
+                this.profileForm = info
+            }
         }
     }
 </script>
