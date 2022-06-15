@@ -21,134 +21,172 @@
             <el-table-column
                     prop="title"
                     align="center"
-                    label="论文题目"
+                    label="论文名称(文本)"
                     width="350">
             </el-table-column>
             <el-table-column
                     prop="venue"
                     align="center"
-                    label="期刊名称"
+                    label="刊物名称(文本)"
                     width="350">
                 <template slot-scope="scope">
                     {{scope.row.name==='undefined'?scope.row.venue:scope.row.name}}
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="authors"
-                    align="center"
-                    label="作者"
-                    width="350">
-            </el-table-column>
-            <el-table-column
                     prop="year"
                     sortable
                     align="center"
-                    label="发表年(卷)期"
-                    column-key="year"
-                    :filters="yearRange"
-                    :filter-method="filterHandler"
+                    label="发表日期"
                     width="200">
                 <template slot-scope="scope">
-                    {{scope.row.year}}
-                    ({{scope.row.volume==='undefined'?'online':scope.row.volume}})
-                    {{scope.row.number==="undefined"?'online':scope.row.number}}
+                    {{scope.row.year+'.'+Math.floor(Math.random() * 12 + 1).toString().padStart(2,
+                    '0')+'.'+Math.floor(Math.random() * 28 + 1).toString().padStart(2, '0')}}
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="year"
-                    sortable
+                    prop="level"
                     align="center"
-                    label="年(期)页码"
-                    column-key="year"
-                    :filters="yearRange"
-                    :filter-method="filterHandler"
-                    width="200">
-                <template slot-scope="scope">
-                    {{scope.row.year}}
-                    ({{scope.row.number==='undefined'?'online':scope.row.number}})
-                    {{scope.row.pages==='undefined'?'online':scope.row.pages}}
-                </template>
-            </el-table-column>
-            <el-table-column
-                    prop="volume"
-                    align="center"
-                    label="卷号"
-                    width="60">
-            </el-table-column>
-            <el-table-column
-                    prop="期刊等级"
-                    align="center"
-                    label="level"
+                    label="论文级别(文本)"
                     width="70">
                 <template slot-scope="scope">
                     {{scope.row.level==='undefined'?'online':scope.row.level}}
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="ISSN"
+                    prop="authors"
                     align="center"
-                    label="ISSN"
-                    width="100">
-                <template slot-scope="scope">
-                    {{scope.row.ISSN==='undefined'?'online':scope.row.ISSN}}
-                </template>
+                    label="作者"
+                    width="450">
             </el-table-column>
             <el-table-column
-                    prop="影响因子"
+                    prop="index"
                     align="center"
-                    label="IF"
-                    width="80">
-                <template slot-scope="scope">
-                    {{scope.row.IF==='undefined'?'online':Number(scope.row.IF).toFixed(3)}}
-                </template>
+                    label="排名(文本)"
+                    width="50">
             </el-table-column>
             <el-table-column
-                    prop="key"
+                    prop=""
                     align="center"
-                    label="发表刊物(检索号,刊号,影响因子)"
-                    width="480">
-                <template slot-scope="scope">
-                    {{scope.row.name==='undefined'?scope.row.venue:scope.row.name}}
-                    ({{scope.row.key}},{{scope.row.ISSN==='undefined'?'online':scope.row.ISSN}},
-                    {{scope.row.IF==='undefined'?'online':Number(scope.row.IF).toFixed(3)}})
-                </template>
+                    label="是否通讯作者(文本)"
+                    width="60">
             </el-table-column>
             <el-table-column
-                    prop="kind"
+                    prop=""
                     align="center"
-                    label="期刊类型"
-                    width="100">
-                <template slot-scope="scope">
-                    {{scope.row.kind==='undefined'?'online':scope.row.kind}}
-                </template>
+                    label="备注(文本)"
+                    width="60">
             </el-table-column>
-            <el-table-column
-                    prop="key"
-                    align="center"
-                    label="索引"
-                    width="200">
-            </el-table-column>
-            <el-table-column
-                    prop="pages"
-                    align="center"
-                    label="页号"
-                    width="120">
-                <template slot-scope="scope">
-                    {{ scope.row.pages==='undefined'?'online':scope.row.pages}}
-                </template>
-            </el-table-column>
-            <el-table-column
-                    prop="url"
-                    align="center"
-                    label="dblp链接"
-                    width="200">
-            </el-table-column>
-            <el-table-column
-                    prop="ee"
-                    align="center"
-                    label="文章链接"
-                    width="200">
-            </el-table-column>
+            <!--            <el-table-column-->
+            <!--                    prop="year"-->
+            <!--                    sortable-->
+            <!--                    align="center"-->
+            <!--                    label="发表年(卷)期"-->
+            <!--                    column-key="year"-->
+            <!--                    :filters="yearRange"-->
+            <!--                    :filter-method="filterHandler"-->
+            <!--                    width="200">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    {{scope.row.year}}-->
+            <!--                    ({{scope.row.volume==='undefined'?'online':scope.row.volume}})-->
+            <!--                    {{scope.row.number==="undefined"?'online':scope.row.number}}-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="year"-->
+            <!--                    sortable-->
+            <!--                    align="center"-->
+            <!--                    label="年(期)页码"-->
+            <!--                    column-key="year"-->
+            <!--                    :filters="yearRange"-->
+            <!--                    :filter-method="filterHandler"-->
+            <!--                    width="200">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    {{scope.row.year}}-->
+            <!--                    ({{scope.row.number==='undefined'?'online':scope.row.number}})-->
+            <!--                    {{scope.row.pages==='undefined'?'online':scope.row.pages}}-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="volume"-->
+            <!--                    align="center"-->
+            <!--                    label="卷号"-->
+            <!--                    width="60">-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="期刊等级"-->
+            <!--                    align="center"-->
+            <!--                    label="level"-->
+            <!--                    width="70">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    {{scope.row.level==='undefined'?'online':scope.row.level}}-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="ISSN"-->
+            <!--                    align="center"-->
+            <!--                    label="ISSN"-->
+            <!--                    width="100">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    {{scope.row.ISSN==='undefined'?'online':scope.row.ISSN}}-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="影响因子"-->
+            <!--                    align="center"-->
+            <!--                    label="IF"-->
+            <!--                    width="80">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    {{scope.row.IF==='undefined'?'online':Number(scope.row.IF).toFixed(3)}}-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="key"-->
+            <!--                    align="center"-->
+            <!--                    label="发表刊物(检索号,刊号,影响因子)"-->
+            <!--                    width="480">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    {{scope.row.name==='undefined'?scope.row.venue:scope.row.name}}-->
+            <!--                    ({{scope.row.key}},{{scope.row.ISSN==='undefined'?'online':scope.row.ISSN}},-->
+            <!--                    {{scope.row.IF==='undefined'?'online':Number(scope.row.IF).toFixed(3)}})-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="kind"-->
+            <!--                    align="center"-->
+            <!--                    label="期刊类型"-->
+            <!--                    width="100">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    {{scope.row.kind==='undefined'?'online':scope.row.kind}}-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="key"-->
+            <!--                    align="center"-->
+            <!--                    label="索引"-->
+            <!--                    width="200">-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="pages"-->
+            <!--                    align="center"-->
+            <!--                    label="页号"-->
+            <!--                    width="120">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    {{ scope.row.pages==='undefined'?'online':scope.row.pages}}-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="url"-->
+            <!--                    align="center"-->
+            <!--                    label="dblp链接"-->
+            <!--                    width="200">-->
+            <!--            </el-table-column>-->
+            <!--            <el-table-column-->
+            <!--                    prop="ee"-->
+            <!--                    align="center"-->
+            <!--                    label="文章链接"-->
+            <!--                    width="200">-->
+            <!--            </el-table-column>-->
         </el-table>
         <el-button type="primary"
                    :loading="downloadExcelLoading"
