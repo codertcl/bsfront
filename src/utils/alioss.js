@@ -2,8 +2,9 @@ import OSS from "ali-oss";
 
 export function getClient() {
     const client = new OSS({
-        accessKeyId: 'LTAI5tLz4wt7CKc2WiDDLGMZ',
-        accessKeySecret: 'kpTVa5emqIfu2fnhdmtqnXqzvJgpL3',
+        // 阿里云OSS申请
+        accessKeyId: 'xxxx',
+        accessKeySecret: 'xxxxx',
         bucket: 'serverresource',// 填写Bucket名称。
         region: 'oss-cn-hangzhou',
     });
